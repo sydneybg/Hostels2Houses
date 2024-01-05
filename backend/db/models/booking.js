@@ -53,13 +53,14 @@ module.exports = (sequelize, DataTypes) => {
     },
     endDate: {
       type: DataTypes.DATE,
-      allowNull: false},
+      allowNull: false,
       validate: {
         isAfter: {
           args: 'startDate',
           msg: 'End date must be after start date'
         }
       }
+    }
   }, {
     sequelize,
     modelName: 'Booking',

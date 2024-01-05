@@ -1,13 +1,13 @@
 'use strict';
 
+const { Review, User, Spot } = require('../models');
+
 let options = {};
 if (process.env.NODE_ENV === 'production') {
   options.schema = process.env.SCHEMA;
 };
 
-const { Review, User, Spot } = require('../models');
 
-/** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
     options.tableName = 'Reviews';
@@ -15,18 +15,20 @@ module.exports = {
       options,
       [
         {
-          
+          spotId: 1,
+          userId: 1,
+          stars: 4,
+          body: 'Not too bad'
         }
       ]
     )
   },
 
   async down (queryInterface, Sequelize) {
-    /**
-     * Add commands to revert seed here.
-     *
-     * Example:
-     * await queryInterface.bulkDelete('People', null, {});
-     */
+    options.tableName = 'Reviews';
+    const Op = Sequelize.Op;
+    return queryInterface.bulkDelete(options, {
+      stars: { [Op.in]: [4] }
+    }, {})
   }
 };

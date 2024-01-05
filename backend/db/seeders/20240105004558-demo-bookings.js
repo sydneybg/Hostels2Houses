@@ -1,6 +1,6 @@
 'use strict';
 
-const { Bookings, Spots, Users } = require('../models');
+const { Booking, Spot, User } = require('../models');
 
 let options = {};
 if (process.env.NODE_ENV === 'production') {
@@ -10,7 +10,10 @@ if (process.env.NODE_ENV === 'production') {
 
 module.exports = {
   async up (queryInterface, Sequelize) {
-    await Bookings.bulkCreate( [
+    options.tableName = 'Bookings';
+    await Bookings.bulkCreate(
+      options,
+      [
       {
         spotId: 1,
         guestId: 2,

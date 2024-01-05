@@ -4,15 +4,14 @@ const { User, Spot, sequelize } = require('../models')
 
 let options = {};
 if (process.env.NODE_ENV === 'production') {
-  options.schema = process.env.SCHEMA; 
+  options.schema = process.env.SCHEMA;
 }
 
-/** @type {import('sequelize-cli').Migration} */
+/* @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
    options.tableName = 'Spots';
-   await Spot.bulkCreate(
-     options,
+   await Spot.bulkCreate(options,
      [
        {
          ownerId: 1,
@@ -29,7 +28,6 @@ module.exports = {
      ],
      { validate: true }
    );
-
   },
 
   async down (queryInterface, Sequelize) {
