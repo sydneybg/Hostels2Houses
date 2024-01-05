@@ -4,6 +4,7 @@ const {
   Model
 } = require('sequelize');
 
+
 module.exports = (sequelize, DataTypes) => {
   class SpotImage extends Model {
     /**

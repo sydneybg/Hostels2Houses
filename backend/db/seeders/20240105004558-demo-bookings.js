@@ -1,8 +1,24 @@
 'use strict';
 
-/** @type {import('sequelize-cli').Migration} */
+let options = {};
+if (process.env.NODE_ENV === 'production') {
+  options.schema = process.env.SCHEMA;
+};
+
+const { Bookings, Spots, Users } = require('../models');
+
 module.exports = {
   async up (queryInterface, Sequelize) {
+
+    const spots = await Spots.findAll();
+    const users = await Users.findAll();
+
+    await Bookings.bulkCreate( [
+      {
+        spotId: spots[0].id,
+
+      }
+    ])
     /**
      * Add seed commands here.
      *

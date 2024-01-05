@@ -4,6 +4,7 @@ const {
   Model
 } = require('sequelize');
 
+
 module.exports = (sequelize, DataTypes) => {
   class Review extends Model {
     /**
@@ -27,7 +28,7 @@ module.exports = (sequelize, DataTypes) => {
       );
     };
   };
-  
+
   Review.init({
     id: {
       type: DataTypes.INTEGER,

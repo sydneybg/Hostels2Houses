@@ -4,6 +4,7 @@ const {
   Model
 } = require('sequelize');
 
+
 module.exports = (sequelize, DataTypes) => {
   class Spot extends Model {
     /**
@@ -28,7 +29,7 @@ module.exports = (sequelize, DataTypes) => {
       );
     }
   };
-  
+
   Spot.init({
     id: {
       type: DataTypes.INTEGER,
