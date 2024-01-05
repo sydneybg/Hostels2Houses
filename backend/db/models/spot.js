@@ -12,20 +12,23 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      Spot.belongsTo(models.User, {
-        foreignKey: 'ownerId',
-        as: 'Owner'
-      });
+      Spot.belongsTo(
+        models.User,
+        { foreignKey: 'ownerId' }
+      );
 
-      Spot.hasMany(models.Booking, {
-        foreignKey: 'spotId'
-      });
+      Spot.hasMany(
+        models.Booking,
+        { foreignKey: 'spotId', onDelete: 'CASCADE' }
+      );
 
-      Spot.hasMany(models.Review, {
-        foreignKey: 'spotId'
-      })
+      Spot.hasMany(
+        models.Review,
+        { foreignKey: 'spotId', onDelete: 'CASCADE' }
+      );
     }
-  }
+  };
+  
   Spot.init({
     id: {
       type: DataTypes.INTEGER,
@@ -45,19 +48,24 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false
     },
     city: {
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
+      allowNull: false
     },
     state: {
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
+      allowNull: false,
     },
     country: {
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
+      allowNull: false
     },
     lat: {
-      type: DataTypes.DECIMAL
+      type: DataTypes.DECIMAL,
+      allowNull: false
     },
     lng: {
-      type: DataTypes.DECIMAL
+      type: DataTypes.DECIMAL,
+      allowNull: false
     },
     name: {
       type: DataTypes.STRING,

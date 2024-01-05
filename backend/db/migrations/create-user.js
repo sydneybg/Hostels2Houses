@@ -17,7 +17,13 @@ module.exports = {
       username: {
         type: Sequelize.STRING(30),
         allowNull: false,
-        unique: true
+        unique: true,
+        indexes: [
+          {
+            unique: true,
+            fields: ['username']
+          }
+        ]
       },
       firstName: {
         type: Sequelize.STRING(30),
