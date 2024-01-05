@@ -40,9 +40,3 @@ module.exports = {
     }, {})
   }
 };
-
-// // , 'pink house', 'yellow house'
-// {
-//   ownerId: 2,
-//   name: "pink house",
-// }

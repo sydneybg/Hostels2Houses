@@ -46,11 +46,20 @@ module.exports = (sequelize, DataTypes) => {
     },
     startDate: {
       type: DataTypes.DATE,
-      allowNull: false
+      allowNull: false,
+      validate: {
+        isAfter: new Date()
+      }
     },
     endDate: {
       type: DataTypes.DATE,
-      allowNull: false}
+      allowNull: false},
+      validate: {
+        isAfter: {
+          args: 'startDate',
+          msg: 'End date must be after start date'
+        }
+      }
   }, {
     sequelize,
     modelName: 'Booking',

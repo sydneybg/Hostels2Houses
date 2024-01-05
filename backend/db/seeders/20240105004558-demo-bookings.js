@@ -1,41 +1,30 @@
 'use strict';
 
+const { Bookings, Spots, Users } = require('../models');
+
 let options = {};
 if (process.env.NODE_ENV === 'production') {
   options.schema = process.env.SCHEMA;
 };
 
-const { Bookings, Spots, Users } = require('../models');
 
 module.exports = {
   async up (queryInterface, Sequelize) {
-
-    const spots = await Spots.findAll();
-    const users = await Users.findAll();
-
     await Bookings.bulkCreate( [
       {
-        spotId: spots[0].id,
-
+        spotId: 1,
+        guestId: 2,
+        startDate: new Date('2025-06-01'),
+        endDate: new Date('2025-06-10')
       }
     ])
-    /**
-     * Add seed commands here.
-     *
-     * Example:
-     * await queryInterface.bulkInsert('People', [{
-     *   name: 'John Doe',
-     *   isBetaMember: false
-     * }], {});
-    */
   },
 
   async down (queryInterface, Sequelize) {
-    /**
-     * Add commands to revert seed here.
-     *
-     * Example:
-     * await queryInterface.bulkDelete('People', null, {});
-     */
+    options.tableName = 'Bookings';
+    const Op = Sequelize.Op;
+    return queryInterface.bulkDelete(options, {
+      spotId: { [Op.in]: [1] }
+    }, {})
   }
 };
