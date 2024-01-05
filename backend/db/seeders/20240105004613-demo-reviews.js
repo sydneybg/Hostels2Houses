@@ -5,18 +5,20 @@ if (process.env.NODE_ENV === 'production') {
   options.schema = process.env.SCHEMA;
 };
 
+const { Review, User, Spot } = require('../models');
+
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
-    /**
-     * Add seed commands here.
-     *
-     * Example:
-     * await queryInterface.bulkInsert('People', [{
-     *   name: 'John Doe',
-     *   isBetaMember: false
-     * }], {});
-    */
+    options.tableName = 'Reviews';
+    await Review.bulkCreate(
+      options,
+      [
+        {
+          
+        }
+      ]
+    )
   },
 
   async down (queryInterface, Sequelize) {
