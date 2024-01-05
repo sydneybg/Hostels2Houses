@@ -47,3 +47,5 @@ module.exports = (sequelize, DataTypes) => {
   });
   return ReviewImage;
 };
+
+module.exports = ReviewImage;

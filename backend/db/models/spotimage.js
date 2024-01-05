@@ -50,3 +50,5 @@ module.exports = (sequelize, DataTypes) => {
   });
   return SpotImage;
 };
+
+module.exports = SpotImage;

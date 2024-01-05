@@ -63,3 +63,5 @@ module.exports = (sequelize, DataTypes) => {
   });
   return Review;
 };
+
+module.exports = Review;
