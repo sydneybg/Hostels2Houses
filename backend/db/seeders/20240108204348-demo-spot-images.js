@@ -27,6 +27,7 @@ const demoSpotImages = [
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
+    options.tableName = 'SpotImage';
     await SpotImage.bulkCreate( demoSpotImages, options)
   },
 
