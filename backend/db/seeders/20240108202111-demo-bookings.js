@@ -31,7 +31,7 @@ const demoBookings = [
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
-    options.tableName = 'Bookings';
+    // options.tableName = 'Bookings';
     await Booking.bulkCreate(demoBookings, options);
   },
 
