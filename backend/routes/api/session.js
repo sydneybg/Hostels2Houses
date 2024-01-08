@@ -11,6 +11,7 @@ const { User } = require('../../db/models');
 
 const router = express.Router();
 
+//Validates Login Request Body
 const validateLogin = [
     check('credential')
       .exists({ checkFalsy: true })
@@ -38,6 +39,16 @@ router.post(
           }
         }
       });
+
+      if(!credential || !password) {
+        return res.status(400).json({
+          message: 'Bad Request',
+          errors: {
+            credential: 'Email or username is required',
+            password: 'Password is required'
+          }
+        })
+      }
 
       if (!user || !bcrypt.compareSync(password, user.hashedPassword.toString())) {
         const err = new Error('Login failed');

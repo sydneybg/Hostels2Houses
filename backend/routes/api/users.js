@@ -10,6 +10,7 @@ const { User } = require('../../db/models');
 
 const router = express.Router();
 
+//Validate Signup Request Body
 const validateSignup = [
     check('email')
       .exists({ checkFalsy: true })
