@@ -15,11 +15,11 @@ module.exports = (sequelize, DataTypes) => {
       );
       User.hasMany(
         models.Booking,
-        { foreignKey: 'userId', onDelete: 'CASCADE'}
+        { foreignKey: 'guestId', onDelete: 'CASCADE'}
       );
       User.hasMany(
         models.Review,
-        { foreignKey: 'userId', onDelete: 'CASCADE'}
+        { foreignKey: 'authorId', onDelete: 'CASCADE'}
       );
     }
   }
