@@ -18,12 +18,12 @@ module.exports = {
       },
       spotId: {
         type: Sequelize.INTEGER,
-        references: { model: 'Spots', key: 'id' },
+        references: { model: 'Spots' },
         allowNull: false
       },
       guestId: {
         type: Sequelize.INTEGER,
-        references: { model: 'Users' },
+        references: { model: 'Users', key: 'id' },
         allowNull: false
       },
       startDate: {
