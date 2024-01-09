@@ -36,7 +36,8 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: 'Users'
+        model: 'Users',
+        key: 'id'
       }
     },
     startDate: {
@@ -62,4 +63,3 @@ module.exports = (sequelize, DataTypes) => {
   });
   return Booking;
 };
-
