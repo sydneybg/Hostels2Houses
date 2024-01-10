@@ -37,7 +37,27 @@ router.get(
     }
 )
 
+// let spotValidation = [
 
+// ]
+
+router.post(
+    '/',
+    requireAuth,
+
+    async (req, res) => {
+        const { address, city, state, country, lat, lng, name, description, price } = req.body;
+
+
+        const ownerId = req.user.dataValues.id;
+        const spot = await Spot.create({ ownerId,
+            address, city, state, country, lat, lng, name, description, price
+        })
+
+
+        return res.status(200).json(spot.dataValues)
+    }
+)
 
 module.exports = router;
 
