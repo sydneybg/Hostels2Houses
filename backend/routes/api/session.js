@@ -83,7 +83,8 @@ router.delete(
     }
   );
 
-// Restore session user
+// Restore session user --Is this where I update the response for get current user?
+
 router.get('/', (req, res) => {
     const { user } = req;
     if (user) {
@@ -97,6 +98,7 @@ router.get('/', (req, res) => {
       });
     } else return res.json({ user: null });
   });
+
 
 
   module.exports = router;

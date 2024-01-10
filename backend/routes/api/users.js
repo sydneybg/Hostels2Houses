@@ -62,7 +62,7 @@ router.post("", validateSignup, async (req, res) => {
     let errors;
     if (err.name === "SequelizeUniqueConstraintError") {
       errors = {};
-
+      // console.log(err.errors[0])
       if(err.errors[0].path === 'email') {
       errors.email = "User with that email already exists";
       }
@@ -78,6 +78,7 @@ router.post("", validateSignup, async (req, res) => {
       errors
     });
   }
+  err.stack = null
   next(err);
   }
 });
