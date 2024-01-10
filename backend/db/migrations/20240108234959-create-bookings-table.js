@@ -23,7 +23,7 @@ module.exports = {
       },
       guestId: {
         type: Sequelize.INTEGER,
-        references: { model: 'Users' },
+        references: { model: 'Users', key: 'id' },
         allowNull: false
       },
       startDate: {
