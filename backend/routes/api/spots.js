@@ -37,17 +37,50 @@ router.get(
     }
 )
 
-// let spotValidation = [
-
-// ]
+const validateSpot = [
+    check('address')
+      .exists({ checkFalsy: true })
+      .withMessage('Street address is required'),
+    check('city')
+      .exists({ checkFalsy: true })
+      .withMessage('City is required'),
+    check('state')
+      .exists({ checkFalsy: true })
+      .withMessage('State is required'),
+    check('country')
+      .exists({ checkFalsy: true })
+      .withMessage('Country is required'),
+    check('lat')
+      .isNumeric()
+      .withMessage('Latitude is not valid'),
+    check('lng')
+      .isNumeric()
+      .withMessage('Longitude is not valid'),
+    check('name')
+      .isLength({ max: 50 })
+      .withMessage('Name must be less than 50 characters'),
+    check('description')
+      .exists({ checkFalsy: true })
+      .withMessage('Description is required'),
+    check('price')
+      .exists({ checkFalsy: true })
+      .withMessage('Price per day is required'),
+      handleValidationErrors
+  ];
 
 router.post(
     '/',
     requireAuth,
-
+    validateSpot,
     async (req, res) => {
         const { address, city, state, country, lat, lng, name, description, price } = req.body;
 
+        if(!validateSpot.isEmpty){
+            return res.status(400).json({
+                message: "Bad Request",
+                errors
+            })
+        }
 
         const ownerId = req.user.dataValues.id;
         const spot = await Spot.create({ ownerId,
