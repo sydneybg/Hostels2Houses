@@ -24,7 +24,7 @@ const validateLogin = [
   ];
 
 
-// Log in
+// Log in - require authentication false
 router.post(
     '/',
     validateLogin,
