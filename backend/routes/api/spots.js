@@ -8,10 +8,10 @@ const { handleValidationErrors } = require('../../utils/validation');
 const { setTokenCookie, requireAuth } = require('../../utils/auth');
 const { Spot, SpotImage, Review } = require('../../db/models');
 
-// const spotimage = require('../../db/models/spotimage');
 
 const router = express.Router();
 
+//Get all spots
 router.get(
     '/',
     async (req, res) => {
@@ -31,6 +31,7 @@ router.get(
         return res.json(spots)
     }
 )
+
 
 
 module.exports = router;
