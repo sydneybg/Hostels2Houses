@@ -91,7 +91,7 @@ router.post(
             address, city, state, country, lat, lng, name, description, price
         })
 
-        return res.status(200).json(spot.dataValues)
+        return res.status(201).json(spot.dataValues)
     }
 )
 
