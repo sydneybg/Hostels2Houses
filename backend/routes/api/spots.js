@@ -27,16 +27,17 @@ router.get(
             spot.dataValues.avgRating = avgRating;
             delete spot.dataValues.Reviews
 
-            if(spot.SpotImage.preview === true ){
-                spot.dataValues.previewImage = spot.SpotImage.url;
-            }
+            if(spot.SpotImage) {
+                if(spot.SpotImage.preview === true ){
+                 spot.dataValues.previewImage = spot.SpotImage.url;
+                }
             delete spot.dataValues.SpotImage
+            }
             return spot
         })
         return res.json(spots)
     }
 )
-
 
 
 module.exports = router;
