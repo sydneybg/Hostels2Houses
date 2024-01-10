@@ -27,72 +27,18 @@ router.get(
             spot.dataValues.avgRating = avgRating;
             delete spot.dataValues.Reviews
 
-            if(spot.SpotImage.preview === true ){
-                spot.dataValues.previewImage = spot.SpotImage.url;
-            }
+            if(spot.SpotImage) {
+                if(spot.SpotImage.preview === true ){
+                 spot.dataValues.previewImage = spot.SpotImage.url;
+                }
             delete spot.dataValues.SpotImage
+            }
             return spot
         })
         return res.json(spots)
     }
 )
 
-const validateSpot = [
-  check("address")
-    .exists({ checkFalsy: true })
-    .notEmpty()
-    .withMessage("Street address is required"),
-  check("city")
-    .exists({ checkFalsy: true })
-    .notEmpty()
-    .withMessage("City is required"),
-  check("state")
-    .exists({ checkFalsy: true })
-    .notEmpty()
-    .withMessage("State is required"),
-  check("country")
-    .exists({ checkFalsy: true })
-    .notEmpty()
-    .withMessage("Country is required"),
-  check("lat")
-    .notEmpty()
-    .isNumeric()
-    .withMessage("Latitude is not valid"),
-  check("lng")
-    .notEmpty()
-    .isNumeric()
-    .withMessage("Longitude is not valid"),
-  check("name")
-    .notEmpty()
-    .isLength({ max: 50 })
-    .withMessage("Name must be less than 50 characters"),
-  check("description")
-    .notEmpty()
-    .exists({ checkFalsy: true })
-    .withMessage("Description is required"),
-  check("price")
-    .notEmpty()
-    .isNumeric()
-    .exists({ checkFalsy: true })
-    .withMessage("Price per day is required"),
-  handleValidationErrors,
-];
 
-//Create a spot
-router.post(
-    '/',
-    requireAuth,
-    validateSpot,
-    async (req, res) => {
-        const { address, city, state, country, lat, lng, name, description, price } = req.body;
-
-        const ownerId = req.user.dataValues.id;
-        const spot = await Spot.create({ ownerId,
-            address, city, state, country, lat, lng, name, description, price
-        })
-
-        return res.status(201).json(spot.dataValues)
-    }
-)
 
 module.exports = router;
