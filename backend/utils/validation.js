@@ -16,15 +16,6 @@ const handleValidationErrors = (req, res, next) => {
           message: 'Bad Request',
           errors
         })
-
-    // const err = Error("Bad request.");
-    // err.errors = errors;
-    // err.status = 400;
-    // err.title = "Bad request";
-    // delete err.stack
-    // console.log('handleValidationErrors')
-    // console.log(err)
-    // next(err);
   }
   next();
 };
@@ -32,3 +23,6 @@ const handleValidationErrors = (req, res, next) => {
 module.exports = {
   handleValidationErrors
 };
+
+
+

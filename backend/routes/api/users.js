@@ -41,7 +41,7 @@ const validateSignup = [
 
 
 // Sign up - require authentication false
-router.post("", validateSignup, async (req, res) => {
+router.post("/", validateSignup, async (req, res) => {
   try {
     const { email, password, username, firstName, lastName } = req.body;
     const hashedPassword = bcrypt.hashSync(password);
@@ -70,7 +70,7 @@ router.post("", validateSignup, async (req, res) => {
     let errors;
     if (err.name === "SequelizeUniqueConstraintError") {
       errors = {};
-      // console.log(err.errors[0])
+
       if(err.errors[0].path === 'email') {
       errors.email = "User with that email already exists";
       }
