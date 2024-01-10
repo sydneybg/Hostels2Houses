@@ -23,11 +23,16 @@ router.get(
             reviews.forEach(review => {
                 sum += review.stars
             });
-            const avgStars = sum / numReviews
-            spot.dataValues.avgStars = avgStars;
+            const avgRating = sum / numReviews
+            spot.dataValues.avgRating = avgRating;
+            delete spot.dataValues.Reviews
+
+            if(spot.SpotImage.preview === true ){
+                spot.dataValues.previewImage = spot.SpotImage.url;
+            }
+            delete spot.dataValues.SpotImage
             return spot
         })
-
         return res.json(spots)
     }
 )
@@ -35,6 +40,11 @@ router.get(
 
 
 module.exports = router;
+
+
+
+
+
 
 
 // router.get('/', async (req, res) => {
