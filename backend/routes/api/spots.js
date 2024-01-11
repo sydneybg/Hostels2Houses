@@ -152,7 +152,6 @@ router.post(
             return res.status(403).json({message: "Must be owner of spot"})
         };
 
-
         const spotImage = await SpotImage.create({spotId: spot.id, url, preview})
 
         return res.json({id: spotImage.id, url: spotImage.url, preview: spotImage.preview})
