@@ -80,9 +80,19 @@ router.get(
 router.get(
     '/:spotId',
     async (req, res) => {
-        const spot = await Spot.findByPk(
-            
-        )
+        const { spotId } = req.params
+        const spot = await Spot.findByPk(spotId, {include: [SpotImage, ]})
+        console.log(spot)
+
+        const filteredSpotImages = spot.dataValues.SpotImages.map(spotImage => {
+            console.log(spotImage)
+            return {id: spotImage.id, url: spotImage.url, preview: spotImage.preview}
+        })
+        console.log(filteredSpotImages)
+
+        spot.SpotImages = filteredSpotImages
+
+        return res.status(200).json(spot)
     }
 )
 
