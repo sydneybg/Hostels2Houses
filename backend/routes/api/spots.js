@@ -132,7 +132,21 @@ const validateSpot = [
           return res.status(200).json(spot.dataValues)
       }
   );
-  
+
+  router.delete(
+    '/:spotId',
+    requireAuth,
+    async (req, res) => {
+        const spot = await Spot.findByPk(req.params.spotId);
+
+        if (!spot) {
+            return res.status(404).json({message: "Spot couldn't be found"})
+        }
+
+        await spot.destroy();
+        return res.json({message: "Sucessfully deleted"})
+    }
+  )
 
 
 module.exports = router;
