@@ -96,8 +96,14 @@ router.get(
 
 //Step Three: Return Num reviews (legnth) and avgRating (code above)
 
+        const reviews = spot.Reviews;
+        spot.numReviews = reviews.length;
 
-
+        const sum = reviews.reduce((sum, review) => {
+            return sum + review.stars
+        }, 0);
+        spot.avgStarRating = sum / spot.numReviews;
+        delete spot.dataValues.Reviews
 
 
         return res.status(200).json(spot)
