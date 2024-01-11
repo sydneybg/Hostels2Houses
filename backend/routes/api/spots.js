@@ -132,7 +132,34 @@ const validateSpot = [
           return res.status(200).json(spot.dataValues)
       }
   );
-  
 
+// Add an Image to a Spot based on the Spot's id - need to add owner verification
+
+router.post(
+    '/:spotId/images',
+    requireAuth,
+    async (req, res) => {
+        const { spotId } = req.params;
+        const { url, preview } = req.body;
+
+        const spot = await Spot.findByPk(spotId);
+
+        if (!spot) {
+            return res.status(404).json({message: "Spot couldn't be found"})
+        };
+
+        if (spot.ownerId !== req.user.id){
+            return res.status(403).json({message: "Must be owner of spot"})
+        };
+
+
+        const spotImage = await SpotImage.create({spotId: spot.id, url, preview})
+
+        return res.json({id: spotImage.id, url: spotImage.url, preview: spotImage.preview})
+
+    }
+)
+
+//Need to access the spot image table - do I perform a second query?
 
 module.exports = router;
