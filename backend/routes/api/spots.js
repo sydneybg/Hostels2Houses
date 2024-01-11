@@ -46,13 +46,32 @@ router.get(
     requireAuth,
     async (req, res) => {
         let userId = req.user.id;
-        let currentSpots = await Spot.findAll({
+        let spots = await Spot.findAll({
             where: {
                 ownerId: userId
-            }
+            },
+            include: [SpotImage, Review]
     })
+        spots = spots.map(spot => {
+            const reviews = spot.Reviews
+            const numReviews = reviews.length
+            let sum = 0
+            reviews.forEach(review => {
+                sum += review.stars
+            });
+            const avgRating = sum / numReviews
+            spot.dataValues.avgRating = avgRating;
+            delete spot.dataValues.Reviews
 
-    res.json(currentSpots)
+            if(spot.SpotImage) {
+                if(spot.SpotImage.preview === true ){
+                 spot.dataValues.previewImage = spot.SpotImage.url;
+                }
+            delete spot.dataValues.SpotImage
+            }
+            return spot
+        })
+    res.json(spots)
     }
 )
 
