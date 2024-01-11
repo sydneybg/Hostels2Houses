@@ -75,5 +75,15 @@ router.get(
     }
 )
 
+// Get details of a Spot from an id
+
+router.get(
+    '/:spotId',
+    async (req, res) => {
+        const spot = await Spot.findByPk(
+            
+        )
+    }
+)
 
 module.exports = router;
