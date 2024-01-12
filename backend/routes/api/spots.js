@@ -149,7 +149,7 @@ router.post(
         };
 
         if (spot.ownerId !== req.user.id){
-            return res.status(403).json({message: "Must be owner of spot"})
+            return res.status(403).json({message: "Forbidden"})
         };
 
         const spotImage = await SpotImage.create({spotId: spot.id, url, preview})
