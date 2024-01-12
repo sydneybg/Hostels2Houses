@@ -203,8 +203,10 @@ router.put(
         }
 
         await spot.destroy();
+        await Booking.destroy({where: {spotId: req.params.spotId}});
+        await Review.destroy({where: {spotId: req.params.spotId}});
         return res.json({message: "Sucessfully deleted"})
     }
   )
-  
+
 module.exports = router;
