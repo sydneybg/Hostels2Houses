@@ -133,7 +133,8 @@ const validateSpot = [
       }
   );
 
-// Add an Image to a Spot based on the Spot's id
+
+  // Add an Image to a Spot based on the Spot's id
 
 router.post(
     '/:spotId/images',
@@ -186,6 +187,24 @@ router.put(
     }
 )
 
+//delete a spot
+  router.delete(
+    '/:spotId',
+    requireAuth,
+    async (req, res) => {
+        const spot = await Spot.findByPk(req.params.spotId);
 
+        if (!spot) {
+            return res.status(404).json({message: "Spot couldn't be found"})
+        }
 
+        if(spot.ownerId !== req.user.id){
+            return res.status(403).json({message: "Forbidden"})
+        }
+
+        await spot.destroy();
+        return res.json({message: "Sucessfully deleted"})
+    }
+  )
+  
 module.exports = router;
