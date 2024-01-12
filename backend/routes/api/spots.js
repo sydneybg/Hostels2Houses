@@ -143,6 +143,10 @@ const validateSpot = [
             return res.status(404).json({message: "Spot couldn't be found"})
         }
 
+        if(spot.ownerId !== req.user.id){
+            return res.status(403).json({message: "Forbidden"})
+        }
+
         await spot.destroy();
         return res.json({message: "Sucessfully deleted"})
     }
