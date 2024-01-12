@@ -157,7 +157,76 @@ router.post(
         return res.json({id: spotImage.id, url: spotImage.url, preview: spotImage.preview})
 
     }
+);
+
+const validateSpot = [
+    check("address")
+      .exists({ checkFalsy: true })
+      .notEmpty()
+      .withMessage("Street address is required"),
+    check("city")
+      .exists({ checkFalsy: true })
+      .notEmpty()
+      .withMessage("City is required"),
+    check("state")
+      .exists({ checkFalsy: true })
+      .notEmpty()
+      .withMessage("State is required"),
+    check("country")
+      .exists({ checkFalsy: true })
+      .notEmpty()
+      .withMessage("Country is required"),
+    check("lat")
+      .notEmpty()
+      .isNumeric()
+      .withMessage("Latitude is not valid"),
+    check("lng")
+      .notEmpty()
+      .isNumeric()
+      .withMessage("Longitude is not valid"),
+    check("name")
+      .notEmpty()
+      .isString()
+      .isLength({ max: 50 })
+      .withMessage("Name must be less than 50 characters"),
+    check("description")
+      .notEmpty()
+      .exists({ checkFalsy: true })
+      .withMessage("Description is required"),
+    check("price")
+      .notEmpty()
+      .isNumeric()
+      .exists({ checkFalsy: true })
+      .withMessage("Price per day is required"),
+    handleValidationErrors,
+  ];
+
+//Edit a spot
+
+router.put(
+    '/:spotId',
+    requireAuth,
+    validateSpot,
+    async (req, res) => {
+        const { spotId } = req.params;
+
+        const spot = await Spot.findByPk(spotId);
+
+        if(!spot) {
+            return res.status(404).json({
+                message: "Spot couldn't be found"
+            })
+        }
+
+        if (spot.ownerId !== req.user.id){
+            return res.status(403).json({message: "Forbidden"})
+        };
+
+        await spot.update(req.body);
+        return res.json(spot)
+    }
 )
+
 
 
 module.exports = router;
