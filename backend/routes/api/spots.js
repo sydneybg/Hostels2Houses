@@ -133,7 +133,7 @@ const validateSpot = [
       }
   );
 
-// Add an Image to a Spot based on the Spot's id - need to add owner verification
+// Add an Image to a Spot based on the Spot's id
 
 router.post(
     '/:spotId/images',
@@ -159,6 +159,5 @@ router.post(
     }
 )
 
-//Need to access the spot image table - do I perform a second query?
 
 module.exports = router;
