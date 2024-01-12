@@ -50,45 +50,12 @@ router.get(
             console.log(spot)
             return review
         })
+        const reviewsResponse = {
+            Reviews: reviews
+          };
 
-
-        return res.status(200).json(reviews)
-
-        const response = {
-            Reviews: reviews.map(review => {
-                const { User, Spot, ReviewImages } = review;
-
-                return {
-                    ...review.toJSON(),
-                    User: {
-                        id: User.id,
-                        firstName: User.firstName,
-                        lastName: User.lastName
-                    },
-                    Spot: {
-                        id: Spot.id,
-                        ownerId: Spot.ownerId,
-                        address: Spot.address,
-                        city: Spot.city,
-                        state: Spot.state,
-                        country: Spot.country,
-                        lat: Spot.lat,
-                        lng: Spot.lng,
-                        name: Spot.name,
-                        price: Spot.price,
-                        // previewImage: SpotImage.preview
-                    },
-                    ReviewImages: ReviewImages.map( image => {
-                        return {
-                            id: image.id,
-                            url: image.url
-                        }
-                    })
-                }
-            })
+          return res.status(200).json(reviewsResponse);
         }
-        res.json(response)
-    }
 )
 
 module.exports = router;
