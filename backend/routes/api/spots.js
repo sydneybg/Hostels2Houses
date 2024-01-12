@@ -6,7 +6,7 @@ const { handleValidationErrors } = require('../../utils/validation');
 
 
 const { setTokenCookie, requireAuth } = require('../../utils/auth');
-const { Spot, SpotImage, Review } = require('../../db/models');
+const { Spot, SpotImage, Review, Booking } = require('../../db/models');
 
 
 const router = express.Router();
@@ -203,8 +203,10 @@ router.put(
         }
 
         await spot.destroy();
+        await Booking.destroy({where: {spotId: req.params.spotId}});
+        await Review.destroy({where: {spotId: req.params.spotId}});
         return res.json({message: "Sucessfully deleted"})
     }
   )
-  
+
 module.exports = router;

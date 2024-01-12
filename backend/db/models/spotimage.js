@@ -49,11 +49,3 @@ module.exports = (sequelize, DataTypes) => {
 };
 
 
-// Potential validation change to allow for an array of many urls for many images per spot
-// urls: {
-//   type: DataTypes.ARRAY(DataTypes.STRING),
-//   allowNull: false,
-//   validate: {
-//     isUrl: true
-//   }
-// }
