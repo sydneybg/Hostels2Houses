@@ -18,8 +18,7 @@ router.get(
         let spots = await Spot.findAll({include: [SpotImage, Review]})
 
         spots = spots.map(spot => {
-            console.log(spot)
-            console.log('\n\n\n')
+
             const reviews = spot.Reviews
             const numReviews = reviews.length
             let sum = 0
@@ -71,12 +70,16 @@ router.get(
             spot.dataValues.avgRating = avgRating;
             delete spot.dataValues.Reviews
 
-            if(spot.SpotImage) {
-                if(spot.SpotImage.preview === true ){
-                 spot.dataValues.previewImage = spot.SpotImage.url;
+            spot.dataValues.previewImage = '';
+            if(spot.dataValues.SpotImages) {
+                const foundSpotImage = spot.dataValues.SpotImages.find(image => {
+                    return image.preview
+                })
+                if(foundSpotImage ){
+                 spot.dataValues.previewImage = foundSpotImage.url;
                 }
-            delete spot.dataValues.SpotImage
             }
+            delete spot.dataValues.SpotImages
             return spot
         })
     res.json(spots)
