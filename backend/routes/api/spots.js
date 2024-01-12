@@ -82,11 +82,13 @@ router.get(
     async (req, res) => {
         const { spotId } = req.params;
 
-        let spot = await Spot.findByPk(spotId, {include: [
+        let spot = await Spot.findByPk(spotId, {
+            include: [
             { model: SpotImage, attributes: ['id', 'url', 'preview']},
             { model: Review },
             { model: User, as: 'Owner', attributes: ['id', 'firstName', 'lastName'] }
-        ]});
+            ]
+        });
 
         spot = spot.toJSON();
 
@@ -94,15 +96,24 @@ router.get(
             return res.status(404).json({message: 'Spot not found'})
         }
 
-//Step Three: Return Num reviews (legnth) and avgRating (code above)
 
-        const reviews = spot.Reviews;
-        spot.numReviews = reviews.length;
+        const reviews = spot.Reviews || [];
+        let numReviews = 0;
+        let avgRating = null;
 
-        const sum = reviews.reduce((sum, review) => {
-            return sum + review.stars
+        if(reviews.length > 0) {
+            let sum = reviews.reduce((sum, review) => {
+             return sum + review.stars
         }, 0);
-        spot.avgStarRating = sum / spot.numReviews;
+
+        numReviews = reviews.length;
+        avgRating = sum / numReviews;
+
+        spot.avgRating = avgRating
+    }
+        spot.numReviews = numReviews;
+
+
         delete spot.dataValues.Reviews
 
 
