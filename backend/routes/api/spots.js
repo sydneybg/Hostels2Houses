@@ -90,16 +90,13 @@ router.get(
             ]
         });
 
-        spot = spot.toJSON();
-
         if(!spot){
             return res.status(404).json({message: 'Spot not found'})
         }
 
-
         const reviews = spot.Reviews || [];
         let numReviews = 0;
-        let avgRating = null;
+        let avgStarRating = null;
 
         if(reviews.length > 0) {
             let sum = reviews.reduce((sum, review) => {
@@ -107,11 +104,11 @@ router.get(
         }, 0);
 
         numReviews = reviews.length;
-        avgRating = sum / numReviews;
+        avgStarRating = sum / numReviews;
 
-        spot.avgRating = avgRating
     }
-        spot.numReviews = numReviews;
+        spot.dataValues.avgStarRating = avgStarRating
+        spot.dataValues.numReviews = numReviews;
 
 
         delete spot.dataValues.Reviews
