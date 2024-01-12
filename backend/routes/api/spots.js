@@ -16,7 +16,9 @@ router.get(
     '/',
     async (req, res) => {
         let spots = await Spot.findAll({include: [SpotImage, Review]})
+
         spots = spots.map(spot => {
+
             const reviews = spot.Reviews
             const numReviews = reviews.length
             let sum = 0
@@ -27,15 +29,21 @@ router.get(
             spot.dataValues.avgRating = avgRating;
             delete spot.dataValues.Reviews
 
-            if(spot.SpotImage) {
-                if(spot.SpotImage.preview === true ){
-                 spot.dataValues.previewImage = spot.SpotImage.url;
+            spot.dataValues.previewImage = '';
+            if(spot.dataValues.SpotImages) {
+                const foundSpotImage = spot.dataValues.SpotImages.find(image => {
+                    return image.preview
+                })
+                if(foundSpotImage){
+                    spot.dataValues.previewImage = foundSpotImage.url
                 }
-            delete spot.dataValues.SpotImage
             }
+
+            delete spot.dataValues.SpotImages
             return spot
         })
-        return res.json(spots)
+        const response = {Spots: spots}
+        return res.json(response)
     }
 );
 
@@ -63,15 +71,63 @@ router.get(
             spot.dataValues.avgRating = avgRating;
             delete spot.dataValues.Reviews
 
-            if(spot.SpotImage) {
-                if(spot.SpotImage.preview === true ){
-                 spot.dataValues.previewImage = spot.SpotImage.url;
+            spot.dataValues.previewImage = '';
+            if(spot.dataValues.SpotImages) {
+                const foundSpotImage = spot.dataValues.SpotImages.find(image => {
+                    return image.preview
+                })
+                if(foundSpotImage ){
+                 spot.dataValues.previewImage = foundSpotImage.url;
                 }
-            delete spot.dataValues.SpotImage
             }
+            delete spot.dataValues.SpotImages
             return spot
         })
-    res.json(spots)
+        const response = {Spots: spots}
+        return res.json(response)
+    }
+);
+
+// Get details of a Spot from an id
+
+router.get(
+    '/:spotId',
+    async (req, res) => {
+        const { spotId } = req.params;
+
+        let spot = await Spot.findByPk(spotId, {
+            include: [
+            { model: SpotImage, attributes: ['id', 'url', 'preview']},
+            { model: Review },
+            { model: User, as: 'Owner', attributes: ['id', 'firstName', 'lastName'] }
+            ]
+        });
+
+        if(!spot){
+            return res.status(404).json({message: 'Spot not found'})
+        }
+
+        const reviews = spot.Reviews || [];
+        let numReviews = 0;
+        let avgStarRating = null;
+
+        if(reviews.length > 0) {
+            let sum = reviews.reduce((sum, review) => {
+             return sum + review.stars
+        }, 0);
+
+        numReviews = reviews.length;
+        avgStarRating = sum / numReviews;
+
+    }
+        spot.dataValues.avgStarRating = avgStarRating
+        spot.dataValues.numReviews = numReviews;
+
+
+        delete spot.dataValues.Reviews
+
+
+        return res.status(200).json(spot)
     }
 );
 
@@ -251,5 +307,47 @@ router.put(
         return res.json({message: "Sucessfully deleted"})
     }
   )
+// Get details of a Spot from an id
+
+router.get(
+    '/:spotId',
+    async (req, res) => {
+        const { spotId } = req.params;
+
+        let spot = await Spot.findByPk(spotId, {
+            include: [
+            { model: SpotImage, attributes: ['id', 'url', 'preview']},
+            { model: Review },
+            { model: User, as: 'Owner', attributes: ['id', 'firstName', 'lastName'] }
+            ]
+        });
+
+        if(!spot){
+            return res.status(404).json({message: 'Spot not found'})
+        }
+
+        const reviews = spot.Reviews || [];
+        let numReviews = 0;
+        let avgStarRating = null;
+
+        if(reviews.length > 0) {
+            let sum = reviews.reduce((sum, review) => {
+             return sum + review.stars
+        }, 0);
+
+        numReviews = reviews.length;
+        avgStarRating = sum / numReviews;
+
+    }
+        spot.dataValues.avgStarRating = avgStarRating
+        spot.dataValues.numReviews = numReviews;
+
+
+        delete spot.dataValues.Reviews
+
+
+        return res.status(200).json(spot)
+    }
+)
 
 module.exports = router;
