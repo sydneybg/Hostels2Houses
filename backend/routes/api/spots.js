@@ -42,7 +42,8 @@ router.get(
             delete spot.dataValues.SpotImages
             return spot
         })
-        return res.json(spots)
+        const response = {Spots: spots}
+        return res.json(response)
     }
 );
 
@@ -82,7 +83,8 @@ router.get(
             delete spot.dataValues.SpotImages
             return spot
         })
-    res.json(spots)
+        const response = {Spots: spots}
+        return res.json(response)
     }
 );
 
