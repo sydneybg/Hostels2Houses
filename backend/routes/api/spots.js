@@ -131,48 +131,6 @@ router.get(
     }
 );
 
-// Get details of a Spot from an id
-
-router.get(
-    '/:spotId',
-    async (req, res) => {
-        const { spotId } = req.params;
-
-        let spot = await Spot.findByPk(spotId, {
-            include: [
-            { model: SpotImage, attributes: ['id', 'url', 'preview']},
-            { model: Review },
-            { model: User, as: 'Owner', attributes: ['id', 'firstName', 'lastName'] }
-            ]
-        });
-
-        if(!spot){
-            return res.status(404).json({message: 'Spot not found'})
-        }
-
-        const reviews = spot.Reviews || [];
-        let numReviews = 0;
-        let avgStarRating = null;
-
-        if(reviews.length > 0) {
-            let sum = reviews.reduce((sum, review) => {
-             return sum + review.stars
-        }, 0);
-
-        numReviews = reviews.length;
-        avgStarRating = sum / numReviews;
-
-    }
-        spot.dataValues.avgStarRating = avgStarRating
-        spot.dataValues.numReviews = numReviews;
-
-
-        delete spot.dataValues.Reviews
-
-
-        return res.status(200).json(spot)
-    }
-);
 
 const validateSpot = [
     check("address")
@@ -308,47 +266,6 @@ router.put(
     }
   );
 
-// Get details of a Spot from an id
 
-router.get(
-    '/:spotId',
-    async (req, res) => {
-        const { spotId } = req.params;
-
-        let spot = await Spot.findByPk(spotId, {
-            include: [
-            { model: SpotImage, attributes: ['id', 'url', 'preview']},
-            { model: Review },
-            { model: User, as: 'Owner', attributes: ['id', 'firstName', 'lastName'] }
-            ]
-        });
-
-        if(!spot){
-            return res.status(404).json({message: 'Spot not found'})
-        }
-
-        const reviews = spot.Reviews || [];
-        let numReviews = 0;
-        let avgStarRating = null;
-
-        if(reviews.length > 0) {
-            let sum = reviews.reduce((sum, review) => {
-             return sum + review.stars
-        }, 0);
-
-        numReviews = reviews.length;
-        avgStarRating = sum / numReviews;
-
-    }
-        spot.dataValues.avgStarRating = avgStarRating
-        spot.dataValues.numReviews = numReviews;
-
-
-        delete spot.dataValues.Reviews
-
-
-        return res.status(200).json(spot)
-    }
-)
 
 module.exports = router;
