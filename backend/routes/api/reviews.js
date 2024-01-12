@@ -46,8 +46,6 @@ router.get(
             spot.previewImage = previewImage;
             delete spot.SpotImages
 
-            console.log('\n\n\n')
-            console.log(spot)
             return review
         })
         const reviewsResponse = {
@@ -56,6 +54,9 @@ router.get(
 
           return res.status(200).json(reviewsResponse);
         }
-)
+);
+
+
+
 
 module.exports = router;
