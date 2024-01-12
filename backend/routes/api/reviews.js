@@ -6,7 +6,7 @@ const { handleValidationErrors } = require('../../utils/validation');
 
 
 const { setTokenCookie, requireAuth } = require('../../utils/auth');
-const { Spot, ReviewImage, Review, User, ReviewImage } = require('../../db/models');
+const { Spot, ReviewImage, Review, User, SpotImage } = require('../../db/models');
 
 
 const router = express.Router();
@@ -18,19 +18,41 @@ router.get(
     async (req,res) => {
         const { id: authorId } = req.user;
 
-        const reviews = await Review.findAll({
+        let reviews = await Review.findAll({
             where: {
                 authorId
             },
             include: [
-                {model: User },
-                { model: Spot},
-                { model: SpotImage, attributes: url},
-                { model: ReviewImage }
+                {model: User, attributes: ['id', 'firstName', 'lastName']},
+                { model: Spot, attributes: { exclude: ['description', 'createdAt', 'updatedAt']}, include: {model: SpotImage}},
+                { model: ReviewImage, attributes: ['id', 'url'] }
             ],
             order: [['createdAt', 'DESC']]
         });
-        console.log(reviews)
+
+        reviews = reviews.map(review => {
+            const spot = review.get('Spot').dataValues; //removes dataValues
+
+            const spotImages = spot.SpotImages
+            let previewImage = '';
+
+            const foundSpotImage = spotImages.find(image => {
+                return image.dataValues.preview
+            })
+            if(foundSpotImage){
+                previewImage = foundSpotImage.dataValues.url
+            }
+
+            spot.previewImage = previewImage;
+            delete spot.SpotImages
+
+            console.log('\n\n\n')
+            console.log(spot)
+            return review
+        })
+
+
+        return res.status(200).json(reviews)
 
         const response = {
             Reviews: reviews.map(review => {
