@@ -136,7 +136,7 @@ router.put(
     }
 );
 
-// delete a spot
+// delete a review
 router.delete(
     '/:reviewId',
     requireAuth,
