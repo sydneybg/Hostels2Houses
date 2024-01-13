@@ -96,4 +96,46 @@ router.post(
     }
 );
 
+const validateReview = [
+    check('review')
+    .exists({ checkFalsy: true})
+    .withMessage('Review text is required'),
+  check('stars')
+    .exists({ checkFalsy: true })
+    .isInt({ min: 1, max: 5 })
+    .withMessage('Stars must be an integer from 1 to 5'),
+    handleValidationErrors
+];
+
+// Edit a Review
+
+router.put(
+    '/:reviewId',
+    requireAuth,
+    validateReview,
+    async (req, res) => {
+        const { reviewId } = req.params;
+        const { stars, review } = req.body;
+
+        const currentReview = await Review.findByPk(reviewId);
+
+        if (!currentReview) {
+            return res.status(404).json({ message: "Review not found"})
+        };
+
+        if (currentReview.authorId !== req.user.id) {
+            return res.status(403).json({message: "Forbidden"})
+        };
+
+        const newReview = await currentReview.update({
+            stars,
+            body: review
+        });
+
+        return res.json(newReview)
+    }
+);
+
+
+
 module.exports = router;
