@@ -57,6 +57,8 @@ router.get(
         }
 );
 
+//Add an Image to a Review based on the Review's id
+
 router.post(
     '/:reviewId/images',
     requireAuth,
