@@ -268,7 +268,7 @@ router.put(
 
 
 
-  //Get all Reviews by a Spot's id
+  //Get all Reviews by a Spot's id --- ADD PREVIEW IMAGE
 
 router.get(
     '/:spotId/reviews',
