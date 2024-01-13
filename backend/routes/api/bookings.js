@@ -19,12 +19,32 @@ router.get(
     async (req, res) => {
         const { id: guestId } = req.user;
 
-        const bookings = await Booking.findAll({
+        let bookings = await Booking.findAll({
             where: { guestId },
             include: [
-                { model: Spot, attributes: { exclude: ['description', 'createdAt', 'updatedAt']}}
+                { model: Spot, attributes: { exclude: ['description', 'createdAt', 'updatedAt']}, include: {model: SpotImage}}
             ]
         });
+
+        bookings = bookings.map(booking => {
+            const spot = booking.get('Spot').dataValues;
+            const spotImages = spot.SpotImages;
+            let previewImage = '';
+
+            const foundSpotImage = spotImages.find(image => {
+                return image.dataValues.preview
+            })
+
+            if (foundSpotImage) {
+                previewImage = foundSpotImage.dataValues.url
+            };
+
+            spot.previewImage = previewImage;
+            delete spot.SpotImages
+
+            return booking
+        });
+
         const bookingsResponse = { Bookings: bookings}
         res.json(bookingsResponse)
     }
