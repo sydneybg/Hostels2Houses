@@ -325,6 +325,66 @@ router.get(
 
 
 
+const validateReview = [
+    check('review')
+    .exists({ checkFalsy: true})
+    .withMessage('Review text is required'),
+  check('stars')
+    .exists({ checkFalsy: true })
+    .isInt({ min: 1, max: 5 })
+    .withMessage('Stars must be an integer from 1 to 5'),
+    handleValidationErrors
+];
+
+// Create a Review for a Spot based on the Spot's id
+
+router.post(
+    '/:spotId/reviews',
+    requireAuth,
+    validateReview,
+    async (req, res) => {
+        const { spotId } = req.params;
+        const { stars, review } = req.body;
+        const userId = req.user.id
+
+        const spot = await Spot.findByPk(spotId, {
+            include: {
+                model: Review,
+                attributes: ['spotId', ['authorId', 'userId'], 'stars', ['body', 'review'], 'createdAt', 'updatedAt']
+            }
+        });
+
+        // console.log(spot, 'SPOTTTTT');
+
+        if(!spot) {
+            return res.status(404).json({ message: 'Review could not be found'})
+        }
+
+        const hasRaviews = spot.dataValues.Reviews.find(review => {
+            console.log(review)
+            review.dataValues.userId === userId
+        })
+
+        if(hasRaviews) {
+                return res.status(500).json({message: "User already has a review for this spot"})
+            };
+
+
+        const newReview = await Review.create({
+            authorId: userId,
+            spotId,
+            stars,
+            body: review
+        })
+
+        newReview.dataValues.userId = newReview.dataValues.authorId;
+        newReview.dataValues.review = newReview.dataValues.body;
+        delete newReview.dataValues.authorId
+        delete newReview.dataValues.body
+
+        return res.status(201).json(newReview)
+    }
+);
 
 
 module.exports = router;
