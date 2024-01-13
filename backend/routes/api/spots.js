@@ -396,19 +396,24 @@ router.post(
 =======
 const validateBooking = [
     check('startDate')
-      .exists({checkFalsy: true})
-      .isDate()
+      .exists()
+      .isISO8601()
       .withMessage('Start date is required'),
 
     check('endDate')
-      .exists({checkFalsy: true})
-      .isDate()
+      .exists()
+      .isISO8601()
       .withMessage('End date is required')
+      .custom((value, { req }) => {
+        // Convert to date objects
+        const startDate = new Date(req.body.startDate);
+        const endDate = new Date(value);
 
-      .custom((value, {req}) => {
-        if (value < req.body.startDate) {
-          throw new Error('End date cannot be before start date');
+        // Validate end after start
+        if (endDate < startDate) {
+          throw new Error('Invalid end date');
         }
+
         return true;
       }),
 
@@ -423,7 +428,7 @@ router.post(
     validateBooking,
     async (req, res) => {
         const { spotId } = req.params;
-        const { startDate, endDate } = req.body;
+        // const { startDate, endDate } = req.body;
         let userId = req.user.id;
 
         const spot = await Spot.findByPk(spotId, {
@@ -443,9 +448,13 @@ router.post(
             });
           }
 
+          startDate = new Date(req.body.startDate);
+          endDate = new Date(req.body.endDate);
+
+
         const booking = await Booking.create({
-            startDate,
-            endDate,
+            startDate: startDate.toISOString(),
+            endDate: endDate.toISOString(),
             guestId: userId,
             spotId
         })
