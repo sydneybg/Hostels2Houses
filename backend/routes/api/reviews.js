@@ -57,7 +57,41 @@ router.get(
         }
 );
 
+router.post(
+    '/:reviewId/images',
+    requireAuth,
+    async (req, res) => {
+        const { reviewId } = req.params;
+        const { url } = req.body;
 
+        const review = await Review.findByPk(reviewId);
 
+        if(!review){
+            return res.status(404).json({message: 'Review not found'})
+        };
+
+        if (review.authorId !== req.user.id) {
+            return res.status(403).json({message: 'Forbidden'})
+        };
+
+        const numImages = await ReviewImage.count({
+            where: { reviewId}
+        });
+
+        if(numImages >= 10) {
+            return res.status(403).json({message: "Maximum number of images for this resource was reached"})
+        };
+
+        const newImage = await ReviewImage.create({
+            reviewId,
+            url
+        })
+
+        delete newImage.dataValues.createdAt;
+        delete newImage.dataValues.updatedAt;
+
+        return res.json(newImage)
+    }
+);
 
 module.exports = router;
