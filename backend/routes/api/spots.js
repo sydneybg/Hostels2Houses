@@ -364,7 +364,7 @@ router.post(
 
 
         if(!spot) {
-            return res.status(404).json({ message: 'Review could not be found'})
+            return res.status(404).json({ message: 'Spot could not be found'})
         }
 
         const hasRaview = spot.dataValues.Reviews.find(review => {
