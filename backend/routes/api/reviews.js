@@ -89,6 +89,7 @@ router.post(
             url
         })
 
+        delete newImage.dataValues.reviewId;
         delete newImage.dataValues.createdAt;
         delete newImage.dataValues.updatedAt;
 
@@ -127,11 +128,14 @@ router.put(
             return res.status(403).json({message: "Forbidden"})
         };
 
-        const newReview = await currentReview.update({
+        let newReview = await currentReview.update({
             stars,
             body: review
         });
 
+        newReview.dataValues.userId = newReview.dataValues.authorId;
+        delete newReview.dataValues.authorId;
+        
         return res.json(newReview)
     }
 );
