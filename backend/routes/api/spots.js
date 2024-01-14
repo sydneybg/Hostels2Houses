@@ -267,7 +267,7 @@ router.put(
 
 
 
-  //Get all Reviews by a Spot's id --- ADD PREVIEW IMAGE
+  //Get all Reviews by a Spot's id
 
 router.get(
     '/:spotId/reviews',
@@ -275,7 +275,7 @@ router.get(
         const { spotId } = req.params;
 
         const reviews = await Review.findAll({
-            attributes: ['spotId', ['authorId', 'userId'], 'stars', ['body', 'review'], 'createdAt', 'updatedAt'],
+            attributes: ['id', 'spotId', ['authorId', 'userId'], 'stars', ['body', 'review'], 'createdAt', 'updatedAt'],
             where: { spotId },
         include: [
             { model: User, attributes: ['id', 'firstName', 'lastName']},

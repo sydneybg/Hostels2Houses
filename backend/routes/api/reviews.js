@@ -19,7 +19,7 @@ router.get(
         const { id: authorId } = req.user;
 
         let reviews = await Review.findAll({
-            attributes: ['spotId', ['authorId', 'userId'], 'stars', ['body', 'review'], 'createdAt', 'updatedAt'],
+            attributes: ['id', 'spotId', ['authorId', 'userId'], 'stars', ['body', 'review'], 'createdAt', 'updatedAt'],
             where: {
                 authorId
             },
