@@ -11,10 +11,126 @@ const { Spot, SpotImage, Review, User, Booking, ReviewImage } = require('../../d
 
 const router = express.Router();
 
+const validateQuery = [
+    check('page')
+        .isInt({ min: 1 })
+        .withMessage('Page must be greater than or equal to 1')
+        .optional(),
+    check('size')
+        .isInt({ min: 1 })
+        .withMessage('Size must be greater than or equal to 1')
+        .optional(),
+    check('minLat')
+        .isFloat({ min: -90, max: 90 })
+        .withMessage('Minimum latitude is invalid')
+        .bail()
+        .custom(async (min, { req }) => {
+            const max = req.query.maxLat;
+            if (Number.parseFloat(min) > Number.parseFloat(max)) {
+                throw new Error('Minimum latitude cannot be greater than maximum latitude')
+            }
+        })
+        .optional(),
+    check('maxLat')
+        .isFloat({ min: -90, max: 90 })
+        .withMessage('Maximum latitude is invalid')
+        .bail()
+        .custom(async (max, { req }) => {
+            const min = req.query.minLat;
+            if (Number.parseFloat(max) < Number.parseFloat(min)) {
+                throw new Error('Maximum latitude cannot be less than minimum latitude')
+            }
+        })
+        .optional(),
+    check('minLng')
+        .isFloat({ min: -180, max: 180 })
+        .withMessage('Minimum longitude is invalid')
+        .bail()
+        .custom(async (min, { req }) => {
+            const max = req.query.maxLng;
+            if (Number.parseFloat(min) > Number.parseFloat(max)) {
+                throw new Error('Minimum longitude cannot be greater than maximum longitude')
+            }
+        })
+        .optional(),
+    check('maxLng')
+        .isFloat({ min: -180, max: 180 })
+        .withMessage('Maximum longitude is invalid')
+        .bail()
+        .custom(async (max, { req }) => {
+            const min = req.query.minLng;
+            if (Number.parseFloat(max) < Number.parseFloat(min)) {
+                throw new Error('Maximum longitude cannot be less than minimum longitude')
+            }
+        })
+        .optional(),
+    check('minPrice')
+        .isFloat({ min: 0 })
+        .withMessage('Minimum price must be greater than or equal to 0')
+        .bail()
+        .custom(async (min, { req }) => {
+            const max = req.query.maxPrice;
+            if (Number.parseFloat(min) > Number.parseFloat(max)) {
+                throw new Error('Minimum price cannot be greater than maximum price')
+            }
+        })
+        .optional(),
+    check('maxPrice')
+        .isFloat({ min: 0 })
+        .withMessage('Maximum price must be greater than or equal to 0')
+        .bail()
+        .custom(async (max, { req }) => {
+            const min = req.query.minPrice;
+            if (Number.parseFloat(max) < Number.parseFloat(min)) {
+                throw new Error('Maximum price cannot be less than minimum price')
+            }
+        })
+        .optional(),
+    handleValidationErrors
+];
+
+
+// let validateQuery = (req, res, next) => {
+//     let errors = {};
+//     let { page, size } = req.query;
+//     page = parseInt(page) || 1;
+//     if(page > 10 || page < 1) {
+//         errors.page = "Page must be greater than or equal to 1 and less than 10"}
+
+//     if(Object.keys(errors).length){
+//         return res.status(400).json({
+//             message: "Bad Request",
+//             errors
+//         })
+//     }
+//     next()
+// }
+
 //Get all spots
 router.get(
     '/',
     async (req, res) => {
+
+        let { page, size, maxLat, minLat, minLng, maxLng } = req.query
+        let minPrice = req.query.minPrice
+        let maxPrice = req.query.maxPrice
+        page = parseInt(page) || 1;
+        size = parseInt(size) || 20;
+
+        const options = {
+            include: [
+                {model: Review},
+                {model: SpotImage, where: {preview: true}, required: false}
+            ],
+            where: {}
+            // limit,
+            // offset
+        };
+
+        if(minLat && maxLat){
+            options.where.lat = {[Op.between]: [minLat, maxLat]}
+        }
+
         let spots = await Spot.findAll({include: [SpotImage, Review]})
 
         spots = spots.map(spot => {
