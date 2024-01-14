@@ -367,12 +367,11 @@ router.post(
             return res.status(404).json({ message: 'Review could not be found'})
         }
 
-        const hasRaviews = spot.dataValues.Reviews.find(review => {
-            console.log(review)
-            review.dataValues.userId === userId
-        })
+        const hasRaview = spot.dataValues.Reviews.find(review => {
+            return review.dataValues.userId === userId
+        });
 
-        if(hasRaviews) {
+        if(hasRaview) {
                 return res.status(500).json({message: "User already has a review for this spot"})
             };
 
