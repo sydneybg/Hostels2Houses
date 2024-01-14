@@ -38,7 +38,8 @@ router.get(
             if (foundSpotImage) {
                 previewImage = foundSpotImage.dataValues.url
             };
-
+            booking.dataValues.userId = booking.dataValues.guestId;
+            delete booking.dataValues.guestId;
             spot.previewImage = previewImage;
             delete spot.SpotImages
 
