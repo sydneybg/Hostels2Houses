@@ -50,5 +50,36 @@ router.get(
     }
 );
 
+router.delete(
+  '/:bookingId',
+  requireAuth,
+  async (req, res) => {
+    const { bookingId } = req.params;
+    const booking = await Booking.findByPk(bookingId);
+
+    if (!booking) {
+      return res.status(404).json({message: "Booking couldn't be found"})
+    };
+
+    if(booking.guestId !== req.user.id) {
+      const spot = await Spot.findByPk(booking.spotId);
+      if(spot.ownerId !== req.user.id) {
+        return res.status(403).json({
+          message: 'Forbidden'
+        });
+      }
+    }
+    console.log(booking, "   BOOKING   ")
+    const now = new Date();
+    if(booking.startDate < now) {
+      return res.status(403).json({
+        message: 'Bookings that have started can\'t be deleted'
+      });
+    }
+    await booking.destroy();
+
+    return res.json({message: 'Successfully deleted'});
+  }
+);
 
 module.exports = router;
