@@ -70,7 +70,7 @@ router.delete(
         });
       }
     }
-    console.log(booking, "   BOOKING   ")
+
     const now = new Date();
     if(booking.startDate < now) {
       return res.status(403).json({
