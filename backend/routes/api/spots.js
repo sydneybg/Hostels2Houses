@@ -316,8 +316,16 @@ router.get(
         } else {
             bookings = await Booking.findAll({where: { spotId }, attributes: ['spotId', 'startDate', 'endDate']})
         }
-        const bookingsResponse = { Bookings: bookings}
-        return res.json(bookingsResponse)
+
+        const bookingsResponse = bookings.map(booking => {
+            booking.dataValues.userId = booking.dataValues.guestId;
+            delete booking.dataValues.guestId;
+
+            return booking;
+
+          });
+
+        return res.json({ Bookings: bookingsResponse})
     }
 );
 
