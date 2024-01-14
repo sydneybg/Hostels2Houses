@@ -392,8 +392,6 @@ router.post(
     }
 );
 
-<<<<<<< HEAD
-=======
 const validateBooking = [
     check('startDate')
       .exists()
@@ -499,7 +497,6 @@ router.post(
         return res.json(newBooking);
     }
 );
->>>>>>> 8142a7d (Working on create a booking)
 
 
 
