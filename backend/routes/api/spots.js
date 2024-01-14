@@ -362,7 +362,6 @@ router.post(
             }
         });
 
-        // console.log(spot, 'SPOTTTTT');
 
         if(!spot) {
             return res.status(404).json({ message: 'Review could not be found'})
@@ -393,5 +392,67 @@ router.post(
     }
 );
 
+<<<<<<< HEAD
+=======
+const validateBooking = [
+    check('startDate')
+      .exists({checkFalsy: true})
+      .isDate()
+      .withMessage('Start date is required'),
+
+    check('endDate')
+      .exists({checkFalsy: true})
+      .isDate()
+      .withMessage('End date is required')
+
+      .custom((value, {req}) => {
+        if (value < req.body.startDate) {
+          throw new Error('End date cannot be before start date');
+        }
+        return true;
+      }),
+
+    handleValidationErrors
+  ];
+
+//Create a booking from a spot based on the spots id
+
+router.post(
+    '/:spotId/bookings',
+    requireAuth,
+    validateBooking,
+    async (req, res) => {
+        const { spotId } = req.params;
+        const { startDate, endDate } = req.body;
+        let userId = req.user.id;
+
+        const spot = await Spot.findByPk(spotId, {
+            include: {
+                model: Review,
+                attributes: ['spotId', ['authorId', 'userId'], 'stars', ['body', 'review'], 'createdAt', 'updatedAt']
+            }
+        });
+
+        if(!spot) {
+            return res.status(404).json({ message: 'Review could not be found'})
+        };
+
+        if (spot.ownerId === userId) {
+            return res.status(403).json({
+              message: 'Forbidden'
+            });
+          }
+
+        const booking = await Booking.create({
+            startDate,
+            endDate,
+            guestId: userId,
+            spotId
+        })
+
+        return res.json(booking);
+    }
+);
+>>>>>>> 8142a7d (Working on create a booking)
 
 module.exports = router;
