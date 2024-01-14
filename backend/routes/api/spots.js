@@ -418,16 +418,10 @@ router.post(
     validateBooking,
     async (req, res) => {
         const { spotId } = req.params;
-        // const { startDate, endDate } = req.body;
-        let userId = req.user.id;
+        const { startDate, endDate } = req.body;
+        const { userId } = req.user;
 
-        const spot = await Spot.findByPk(spotId, {
-            include: {
-                model: Review,
-                attributes: ['spotId', ['authorId', 'userId'], 'stars', ['body', 'review'], 'createdAt', 'updatedAt']
-            }
-        });
-
+        const spot = await Spot.findByPk(spotId)
         if(!spot) {
             return res.status(404).json({ message: 'Review could not be found'})
         };
@@ -437,6 +431,16 @@ router.post(
               message: 'Forbidden'
             });
           }
+
+          const getBookings = await Booking.findAll({ where: { spotId}})
+        //   , {
+        //     include: {
+        //         model: Review,
+        //         attributes: ['spotId', ['authorId', 'userId'], 'stars', ['body', 'review'], 'createdAt', 'updatedAt']
+        //     }
+        // });
+
+
 
           startDate = new Date(req.body.startDate);
           endDate = new Date(req.body.endDate);
@@ -452,5 +456,8 @@ router.post(
         return res.json(booking);
     }
 );
+
+
+
 
 module.exports = router;
