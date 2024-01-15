@@ -626,6 +626,10 @@ router.post(
             spotId
         })
 
+        newBooking.dataValues.userId = newBooking.dataValues.guestId;
+        delete newBooking.dataValues.guestId;
+        
+
         return res.json(newBooking);
     }
 );
