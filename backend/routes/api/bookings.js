@@ -126,16 +126,13 @@ router.put(
             include: Spot
         });
 
-        const { spot } = booking;
-        // console.log(spot)
-
-        const spotId = spot.ownerId;
-
         if(!booking) {
-            return res.status(404).json({
-              message: "Booking not found"
-            });
-          };
+          return res.status(404).json({
+            message: "Booking not found"
+          });
+        };
+
+        const { spotId } = booking.dataValues;
 
           if(booking.guestId !== userId) {
             return res.status(403).json({
@@ -154,12 +151,18 @@ router.put(
             });
           }
 
+
+
           let hasConflict = false;
           let errors = {};
 
           for (let booking of allBookings){
             const existingStartDate = booking.dataValues.startDate;
             const existingEndDate = booking.dataValues.endDate;
+
+            if (booking.dataValues.id === bookingId){
+              continue
+            };
 
             if (existingStartDate < startDate && startDate < existingEndDate) {
                 hasConflict = true;
