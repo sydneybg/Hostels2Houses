@@ -51,6 +51,8 @@ router.get(
     }
 );
 
+//delete booking
+
 router.delete(
   '/:bookingId',
   requireAuth,
@@ -81,6 +83,132 @@ router.delete(
 
     return res.json({message: 'Successfully deleted'});
   }
+);
+
+//edit booking
+const validateBooking = [
+  check('startDate')
+    .exists()
+    .withMessage('Start date is required'),
+
+  check('endDate')
+    .exists()
+    .withMessage('End date is required')
+    .custom((value, { req }) => {
+      const startDate = new Date(req.body.startDate);
+      const endDate = new Date(value);
+
+      if (endDate <= startDate) {
+        throw new Error("endDate cannot be on or before startDate");
+      }
+
+      return true;
+    }),
+
+  handleValidationErrors
+];
+
+
+
+// edit a booking
+router.put(
+    '/:bookingId',
+    requireAuth,
+    validateBooking,
+    async (req, res) => {
+      const { id: userId } = req.user;
+
+        let bookingId = parseInt(req.params.bookingId);
+
+        let { startDate, endDate } = req.body;
+
+        let booking = await Booking.findByPk(bookingId, {
+            include: Spot
+        });
+
+        if(!booking) {
+          return res.status(404).json({
+            message: "Booking not found"
+          });
+        };
+
+        const { spotId } = booking.dataValues;
+
+          if(booking.guestId !== userId) {
+            return res.status(403).json({
+              message: "Forbidden"
+            });
+          };
+
+          const allBookings = await Booking.findAll({ where: { spotId }});
+
+          startDate = new Date(startDate);
+          endDate = new Date(endDate);
+
+          if (new Date() > endDate) {
+            return res.status(400).json({
+              message: "Past bookings can't be modified"
+            });
+          }
+
+
+          let hasConflict = false;
+          let errors = {};
+
+          for (let booking of allBookings){
+            const existingStartDate = booking.dataValues.startDate;
+            const existingEndDate = booking.dataValues.endDate;
+
+            if (booking.dataValues.id === bookingId){
+              continue
+            };
+
+            if (existingStartDate < startDate && startDate < existingEndDate) {
+                hasConflict = true;
+                errors.startDate = "Start date conflicts with an existing booking"
+            };
+
+            if (existingEndDate > endDate && endDate > existingStartDate ) {
+                hasConflict = true;
+                errors.endDate = "End date conflicts with an existing booking"
+            };
+
+            if(existingStartDate < startDate && existingEndDate > endDate) {
+                hasConflict = true;
+                errors.startDate = "Start date conflicts with an existing booking"
+            };
+
+            if (startDate < existingStartDate && existingEndDate < endDate) {
+                hasConflict = true;
+                errors.endDate = "End date conflicts with an existing booking"
+            };
+
+            if (startDate === existingStartDate) {
+                hasConflict = true;
+                errors.startDate = "Start date conflicts with an existing booking"
+            };
+
+            if (endDate === existingEndDate) {
+                hasConflict = true;
+                errors.endDate = "End date conflicts with an existing booking"
+            }
+          }
+
+          if(hasConflict === true){
+            return res.status(403).json({
+                "message": "Sorry, this spot is already booked for the specified dates",
+                errors
+              })
+          };
+
+
+          await booking.update({
+            startDate: startDate.toISOString(),
+            endDate: endDate.toISOString()
+          });
+
+          return res.json(booking);
+    }
 );
 
 

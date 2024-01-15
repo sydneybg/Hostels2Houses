@@ -99,22 +99,6 @@ const validateQuery = [
 ];
 
 
-// let validateQuery = (req, res, next) => {
-//     let errors = {};
-//     let { page, size } = req.query;
-//     page = parseInt(page) || 1;
-//     if(page > 10 || page < 1) {
-//         errors.page = "Page must be greater than or equal to 1 and less than 10"}
-
-//     if(Object.keys(errors).length){
-//         return res.status(400).json({
-//             message: "Bad Request",
-//             errors
-//         })
-//     }
-//     next()
-// }
-
 //Get all spots
 router.get(
     '/',
