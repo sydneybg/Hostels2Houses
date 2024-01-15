@@ -1,9 +1,10 @@
 const express = require('express');
 const bcrypt = require('bcryptjs');
 
-const { check } = require('express-validator');
+const { query, check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 
+const { Op } = require('sequelize');
 
 const { setTokenCookie, requireAuth } = require('../../utils/auth');
 const { Spot, SpotImage, Review, User, Booking, ReviewImage } = require('../../db/models');
@@ -12,15 +13,23 @@ const { Spot, SpotImage, Review, User, Booking, ReviewImage } = require('../../d
 const router = express.Router();
 
 const validateQuery = [
-    check('page')
-        .isInt({ min: 1 })
+    query('page')
+        .isInt({ min: 1})
         .withMessage('Page must be greater than or equal to 1')
         .optional(),
-    check('size')
+    query('page')
+        .isInt({ max: 10})
+        .withMessage('Page must be less than or equal to 10')
+        .optional(),
+    query('size')
         .isInt({ min: 1 })
         .withMessage('Size must be greater than or equal to 1')
         .optional(),
-    check('minLat')
+        query('size')
+        .isInt({ max: 20 })
+        .withMessage('Size must be less than or equal to 20')
+        .optional(),
+    query('minLat')
         .isFloat({ min: -90, max: 90 })
         .withMessage('Minimum latitude is invalid')
         .bail()
@@ -31,7 +40,7 @@ const validateQuery = [
             }
         })
         .optional(),
-    check('maxLat')
+    query('maxLat')
         .isFloat({ min: -90, max: 90 })
         .withMessage('Maximum latitude is invalid')
         .bail()
@@ -42,7 +51,7 @@ const validateQuery = [
             }
         })
         .optional(),
-    check('minLng')
+    query('minLng')
         .isFloat({ min: -180, max: 180 })
         .withMessage('Minimum longitude is invalid')
         .bail()
@@ -53,7 +62,7 @@ const validateQuery = [
             }
         })
         .optional(),
-    check('maxLng')
+    query('maxLng')
         .isFloat({ min: -180, max: 180 })
         .withMessage('Maximum longitude is invalid')
         .bail()
@@ -64,7 +73,7 @@ const validateQuery = [
             }
         })
         .optional(),
-    check('minPrice')
+    query('minPrice')
         .isFloat({ min: 0 })
         .withMessage('Minimum price must be greater than or equal to 0')
         .bail()
@@ -75,7 +84,7 @@ const validateQuery = [
             }
         })
         .optional(),
-    check('maxPrice')
+    query('maxPrice')
         .isFloat({ min: 0 })
         .withMessage('Maximum price must be greater than or equal to 0')
         .bail()
@@ -109,6 +118,7 @@ const validateQuery = [
 //Get all spots
 router.get(
     '/',
+    validateQuery,
     async (req, res) => {
 
         let { page, size, maxLat, minLat, minLng, maxLng } = req.query
@@ -117,21 +127,44 @@ router.get(
         page = parseInt(page) || 1;
         size = parseInt(size) || 20;
 
+        let limit = size;
+        let offset = size * (page - 1);
+
         const options = {
             include: [
                 {model: Review},
                 {model: SpotImage, where: {preview: true}, required: false}
             ],
-            where: {}
-            // limit,
-            // offset
+            where: {},
+            limit,
+            offset
         };
 
-        if(minLat && maxLat){
-            options.where.lat = {[Op.between]: [minLat, maxLat]}
-        }
+        if(minLat){
+            options.where.lat = {[Op.gte]: minLat}
+        };
 
-        let spots = await Spot.findAll({include: [SpotImage, Review]})
+        if(maxLat){
+            options.where.lat = {[Op.lte]: maxLat}
+        };
+
+        if(minLng){
+            options.where.lng = {[Op.gte]: minLng}
+        };
+
+        if(maxLng){
+            options.where.lng = {[Op.lte]: maxLng}
+        };
+
+        if(minPrice){
+            options.where.price = {[Op.gte]: minPrice}
+        };
+
+        if(maxPrice){
+            options.where.price = {[Op.lte]: maxPrice}
+        };
+
+        let spots = await Spot.findAll(options)
 
         spots = spots.map(spot => {
 
@@ -158,7 +191,7 @@ router.get(
             delete spot.dataValues.SpotImages
             return spot
         })
-        const response = {Spots: spots}
+        const response = {Spots: spots, page, size}
         return res.json(response)
     }
 );
