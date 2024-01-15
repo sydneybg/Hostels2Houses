@@ -163,22 +163,22 @@ router.put(
               continue
             };
 
-            if (existingStartDate < startDate && startDate < existingEndDate) {
+            if (existingStartDate <= startDate && startDate <= existingEndDate) {
                 hasConflict = true;
                 errors.startDate = "Start date conflicts with an existing booking"
             };
 
-            if (existingEndDate > endDate && endDate > existingStartDate ) {
+            if (existingEndDate >= endDate && endDate >= existingStartDate ) {
                 hasConflict = true;
                 errors.endDate = "End date conflicts with an existing booking"
             };
 
-            if(existingStartDate < startDate && existingEndDate > endDate) {
+            if(existingStartDate <= startDate && existingEndDate >= endDate) {
                 hasConflict = true;
                 errors.startDate = "Start date conflicts with an existing booking"
             };
 
-            if (startDate < existingStartDate && existingEndDate < endDate) {
+            if (startDate <= existingStartDate && existingEndDate <= endDate) {
                 hasConflict = true;
                 errors.endDate = "End date conflicts with an existing booking"
             };
