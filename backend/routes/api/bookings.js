@@ -152,7 +152,6 @@ router.put(
           }
 
 
-
           let hasConflict = false;
           let errors = {};
 
@@ -207,13 +206,6 @@ router.put(
             startDate: startDate.toISOString(),
             endDate: endDate.toISOString()
           });
-
-          // booking.set({
-          //   startDate,
-          //   endDate
-          // });
-
-          // await booking.save();
 
           return res.json(booking);
     }
