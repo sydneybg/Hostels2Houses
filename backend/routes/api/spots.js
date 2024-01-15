@@ -561,7 +561,7 @@ router.post(
 
         const spot = await Spot.findByPk(spotId)
         if(!spot) {
-            return res.status(404).json({ message: 'Review could not be found'})
+            return res.status(404).json({ message: 'Spot could not be found'})
         };
 
         if (spot.ownerId === userId) {
