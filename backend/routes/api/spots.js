@@ -527,10 +527,12 @@ router.post(
 const validateBooking = [
     check('startDate')
       .exists()
+      .isAfter()
       .withMessage('Start date is required'),
 
     check('endDate')
       .exists()
+      .isAfter()
       .withMessage('End date is required')
       .custom((value, { req }) => {
         const startDate = new Date(req.body.startDate);
@@ -542,7 +544,6 @@ const validateBooking = [
 
         return true;
       }),
-
     handleValidationErrors
   ];
 
@@ -585,7 +586,7 @@ router.post(
                 errors.startDate = "Start date conflicts with an existing booking"
             };
 
-            if (existingEndDate > endDate && endDate > existingStartDate ) {
+            if (existingEndDate > endDate && endDate >= existingStartDate ) {
                 hasConflict = true;
                 errors.endDate = "End date conflicts with an existing booking"
             };
@@ -628,7 +629,7 @@ router.post(
 
         newBooking.dataValues.userId = newBooking.dataValues.guestId;
         delete newBooking.dataValues.guestId;
-        
+
 
         return res.json(newBooking);
     }
