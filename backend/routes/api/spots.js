@@ -592,7 +592,7 @@ router.post(
             console.log(typeof existingEndDate, 'Existing end date')
             console.log(typeof existingStartDate, 'existing start date')
 
-            if (existingStartDate < startDate && startDate < existingEndDate) {
+            if (existingStartDate < startDate && startDate <= existingEndDate) {
                 hasConflict = true;
                 errors.startDate = "Start date conflicts with an existing booking"
             };
