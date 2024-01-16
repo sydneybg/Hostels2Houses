@@ -433,11 +433,11 @@ Creates and returns a new spot.
         "city": "City is required",
         "state": "State is required",
         "country": "Country is required",
-        "lat": "Latitude is not valid",
-        "lng": "Longitude is not valid",
+        "lat": "Latitude must be between -90 and 90",
+        "lng": "Longitude must be between -180 and 180",
         "name": "Name must be less than 50 characters",
         "description": "Description is required",
-        "price": "Price per day is required"
+        "price": "Price per day is greater than 0"
       }
     }
     ```
