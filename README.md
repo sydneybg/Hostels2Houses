@@ -1,4 +1,4 @@
-# Hostel2House
+# Hostels2Houses
 
 # Link
 https://hotoho.onrender.com
