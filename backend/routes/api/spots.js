@@ -407,6 +407,11 @@ router.get(
     '/:spotId/reviews',
     async (req, res) => {
         const { spotId } = req.params;
+        const spot = await Spot.findByPk(spotId);
+
+        if(!spot) {
+            return res.status(404).json({ message: "Spot could not be found" });
+        }
 
         const reviews = await Review.findAll({
             attributes: ['id', 'spotId', ['authorId', 'userId'], 'stars', ['body', 'review'], 'createdAt', 'updatedAt'],
@@ -417,9 +422,7 @@ router.get(
         ],
         order: [['createdAt', 'DESC']]});
 
-    if(!reviews || reviews.length === 0) {
-        return res.status(404).json({ message: "Spot could not be found" });
-    }
+
     const reviewsResponse = {
         Reviews: reviews
     };
@@ -529,12 +532,12 @@ const validateBooking = [
     check('startDate')
       .exists()
       .isAfter()
-      .withMessage('Start date is required'),
+      .withMessage('Cannot create a booking in the past'),
 
     check('endDate')
       .exists()
       .isAfter()
-      .withMessage('End date is required')
+      .withMessage('Cannot create a booking in the past')
       .custom((value, { req }) => {
         const startDate = new Date(req.body.startDate);
         const endDate = new Date(value);
@@ -572,15 +575,23 @@ router.post(
 
           const allBookings = await Booking.findAll({ where: { spotId}})
 
-          startDate = new Date(startDate);
-          endDate = new Date(endDate);
+          const startDateCreate = new Date(startDate);
+          const endDateCreate = new Date(endDate);
+
+          startDate = new Date(startDate).getTime();
+          endDate = new Date(endDate).getTime();
 
           let hasConflict = false;
           let errors = {};
 
+
           for (let booking of allBookings){
-            const existingStartDate = booking.dataValues.startDate;
-            const existingEndDate = booking.dataValues.endDate;
+            console.log('In the for loop')
+            let existingStartDate = new Date(booking.dataValues.startDate).getTime();
+            let existingEndDate = new Date(booking.dataValues.endDate).getTime();
+
+            console.log(typeof existingEndDate, 'Existing end date')
+            console.log(typeof existingStartDate, 'existing start date')
 
             if (existingStartDate < startDate && startDate < existingEndDate) {
                 hasConflict = true;
@@ -622,8 +633,8 @@ router.post(
 
 
         const newBooking = await Booking.create({
-            startDate: startDate.toISOString(),
-            endDate: endDate.toISOString(),
+            startDate: startDateCreate.toISOString(),
+            endDate: endDateCreate.toISOString(),
             guestId: userId,
             spotId
         })
