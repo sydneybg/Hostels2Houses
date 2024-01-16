@@ -31,7 +31,7 @@ const validateQuery = [
         .optional(),
     query('minLat')
         .isFloat({ min: -90, max: 90 })
-        .withMessage('Minimum latitude is invalid')
+        .withMessage('Minimum latitude must be -90 or greater')
         .bail()
         .custom(async (min, { req }) => {
             const max = req.query.maxLat;
@@ -42,7 +42,7 @@ const validateQuery = [
         .optional(),
     query('maxLat')
         .isFloat({ min: -90, max: 90 })
-        .withMessage('Maximum latitude is invalid')
+        .withMessage('Maximum latitude must be equal to or less than 90')
         .bail()
         .custom(async (max, { req }) => {
             const min = req.query.minLat;
@@ -53,7 +53,7 @@ const validateQuery = [
         .optional(),
     query('minLng')
         .isFloat({ min: -180, max: 180 })
-        .withMessage('Minimum longitude is invalid')
+        .withMessage('Minimum longitude must be -180 or greater')
         .bail()
         .custom(async (min, { req }) => {
             const max = req.query.maxLng;
@@ -64,7 +64,7 @@ const validateQuery = [
         .optional(),
     query('maxLng')
         .isFloat({ min: -180, max: 180 })
-        .withMessage('Maximum longitude is invalid')
+        .withMessage('Maximum longitude must be 180 or less')
         .bail()
         .custom(async (max, { req }) => {
             const min = req.query.minLng;
