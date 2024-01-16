@@ -91,9 +91,6 @@ module.exports = (sequelize, DataTypes) => {
     price: {
       type: DataTypes.FLOAT,
       allowNull: false,
-      validate: {
-        min: 0
-      }
     }
   }, {
     sequelize,
