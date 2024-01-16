@@ -300,9 +300,7 @@ const validateSpot = [
       .withMessage("Description is required"),
     check("price")
       .notEmpty()
-      .isFloat()
       .isFloat({ min: 0 })
-      .exists({ checkFalsy: true })
       .withMessage('Price must be greater than 0'),
     handleValidationErrors,
   ];
