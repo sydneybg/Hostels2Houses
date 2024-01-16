@@ -46,12 +46,3 @@ module.exports = (sequelize, DataTypes) => {
   return ReviewImage;
 };
 
-
-//A suggestion to create an array if their are more than one review image per review
-// urls: {
-//   type: DataTypes.ARRAY(DataTypes.STRING),
-//   allowNull: false,
-//   validate: {
-//     isUrl: true
-//   }
-// }
