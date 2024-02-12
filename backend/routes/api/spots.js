@@ -585,12 +585,12 @@ router.post(
 
 
           for (let booking of allBookings){
-            console.log('In the for loop')
+            // console.log('In the for loop')
             let existingStartDate = new Date(booking.dataValues.startDate).getTime();
             let existingEndDate = new Date(booking.dataValues.endDate).getTime();
 
-            console.log(typeof existingEndDate, 'Existing end date')
-            console.log(typeof existingStartDate, 'existing start date')
+            // console.log(typeof existingEndDate, 'Existing end date')
+            // console.log(typeof existingStartDate, 'existing start date')
 
             if (existingStartDate < startDate && startDate <= existingEndDate) {
                 hasConflict = true;

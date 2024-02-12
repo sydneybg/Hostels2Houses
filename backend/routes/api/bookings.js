@@ -207,7 +207,7 @@ router.put(
             endDate: endDate.toISOString()
           });
 
-          console.log(booking)
+          // console.log(booking)
           delete booking.dataValues.Spot
           booking.dataValues.userId = booking.dataValues.guestId;
           delete booking.dataValues.guestId
