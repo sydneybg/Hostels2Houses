@@ -41,7 +41,7 @@ const validateSignup = [
 
 
 // Sign up - require authentication false
-router.post("/", validateSignup, async (req, res) => {
+router.post("/", validateSignup, async (req, res, next) => {
   try {
     const { email, password, username, firstName, lastName } = req.body;
     const hashedPassword = bcrypt.hashSync(password);

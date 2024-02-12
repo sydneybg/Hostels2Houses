@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import App from './App';
 import './index.css';
 import configureStore from './store';
-import { restoreCSRF, csrfFetch } from './store/crsf';
+import { restoreCSRF, csrfFetch } from './store/csrf';
 
 const store = configureStore();
 

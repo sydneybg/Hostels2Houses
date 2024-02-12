@@ -81,10 +81,11 @@ router.delete(
     }
   );
 
-// Restore session user --Is this where I update the response for get current user?
+// Restore session user
 
 router.get('/', (req, res) => {
     const { user } = req;
+    console.log(user)
     if (user) {
       const safeUser = {
         id: user.id,
