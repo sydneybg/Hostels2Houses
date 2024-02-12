@@ -9,7 +9,6 @@ if (process.env.NODE_ENV !== 'production') {
     res.cookie('XSRF-TOKEN', req.csrfToken());
     return res.json({});
   });
-
 }
 
 router.use('/api', apiRouter);
