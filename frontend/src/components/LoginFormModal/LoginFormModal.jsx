@@ -14,15 +14,20 @@ function LoginFormModal() {
   const handleSubmit = (e) => {
     e.preventDefault();
     setErrors({});
+    // console.log(credential, 'cred')
+    // console.log(password, 'pass')
     return dispatch(sessionActions.login({ credential, password }))
       .then(closeModal)
       .catch(async (res) => {
         const data = await res.json();
-        if (data && data.errors) {
-          setErrors(data.errors);
+        console.log(res)
+        if (res.status === 401) {
+          setErrors({credential: data.message});
         }
       });
   };
+
+
 
   return (
     <>
@@ -49,7 +54,7 @@ function LoginFormModal() {
         {errors.credential && (
           <p>{errors.credential}</p>
         )}
-        <button type="submit">Log In</button>
+        <button type="submit" disabled={password.length < 6 || credential.length < 4}>Log In</button>
       </form>
     </>
   );

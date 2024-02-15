@@ -30,7 +30,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: '/',
-        element: <h1>Welcome!</h1>
+        element: <h1>Home</h1>
       },
       {
         path: '/login',
@@ -39,6 +39,10 @@ const router = createBrowserRouter([
       {
         path: "/signup",
         element: <SignupFormPage />
+      },
+      {
+        path: "/spots/:spotId",
+        element: <SpotDetails />
       }
     ]
   }

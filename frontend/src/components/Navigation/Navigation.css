@@ -1,13 +1,19 @@
 
 
-.navigation {
+.navigation-container {
+    display: flex;
+    justify-content: space-between;
     background-color: #fff;
     border-bottom: 1px solid #ddd;
     padding: 1rem;
   }
 
-  .navigation ul {
-    display: flex;
+  .hidden {
+    visibility: hidden;
+  }
+
+
+  .navigation-container ul {
     list-style: none;
     margin: 0;
     padding: 0;
