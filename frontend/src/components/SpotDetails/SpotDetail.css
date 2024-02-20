@@ -1,0 +1,52 @@
+
+section {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+
+  .spot-details h2 {
+    font-size: 32px;
+    margin-bottom: 10px;
+  }
+
+  .spot-details h4 {
+    font-size: 18px;
+    font-weight: normal;
+    margin-bottom: 20px;
+  }
+
+
+  .images img {
+    width: 200px;
+    margin-right: 10px;
+  }
+
+
+  .host h3 {
+    font-size: 22px;
+    margin: 20px 0 10px;
+  }
+
+  .price {
+    font-weight: bold;
+    font-size: 20px;
+  }
+
+
+  .rating {
+    font-size: 18px;
+  }
+
+
+  button {
+    background-color: #008489;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+  }
+
+  button:hover {
+    background-color: #00656b;
+    cursor: pointer;
+  }

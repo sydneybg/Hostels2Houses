@@ -5,9 +5,7 @@ import { getSpot, getSpots } from "../../store/spots";
 
 function SpotDetails() {
     const dispatch = useDispatch();
-    //Get spotId
     const { spotId } = useParams();
-
 
     let spot = null;
 
@@ -26,21 +24,21 @@ function SpotDetails() {
 
     return (
         <section>
-            <div>
+            <div className="spot-details">
                 <h2>{spot.name}</h2>
                 <h4>{spot.city}, {spot.state}, {spot.country}</h4>
-                <div>
+                <div className="images">
                     {spot.SpotImages && spot.SpotImages.map(image => (
                         image.preview &&
                         <img key={image.id} src={image.url} />
                     ))}
                 </div>
-                <h3>Hosted by {spot.Owner?.firstName} {spot.Owner?.lastName}</h3>
+                <h3 className="host">Hosted by {spot.Owner?.firstName} {spot.Owner?.lastName}</h3>
                 <span>{spot.description}</span>
-                <div>
+                <div className="price">
                     <span>$ {spot.price}</span>
                 </div>
-                <div>
+                <div className="rating">
                     <span>&#9733; {spot.avgStarRating}</span>
                 </div>
                 <button onClick={() => alert("Feature coming soon")}>Reserve</button>
