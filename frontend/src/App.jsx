@@ -5,6 +5,7 @@ import LoginFormPage from './components/LoginFormModal/LoginFormModal';
 import SignupFormPage from './components/SignUp/SignupFormModal';
 import Navigation from './components/Navigation/Navigation';
 import * as sessionActions from './store/session';
+import SpotDetails from './components/SpotDetails/SpotDetail';
 
 function Layout() {
   const dispatch = useDispatch();
