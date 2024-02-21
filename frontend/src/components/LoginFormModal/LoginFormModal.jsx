@@ -64,7 +64,8 @@ function LoginFormModal() {
           <p>{errors.credential}</p>
         )}
         <button type="submit" disabled={password.length < 6 || credential.length < 4}>Log In</button>
-        <button type="submit" onClick={demoLogin}>Demo User</button>
+        <a href="/" onClick={demoLogin}>Demo User</a>
+
       </form>
     </>
   );

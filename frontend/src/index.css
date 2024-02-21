@@ -1,1 +1,7 @@
 /* TODO: Add sitewide styles */
+.flex {
+    display: flex;
+}
+.justifycontent-between {
+    justify-content: space-between;
+}

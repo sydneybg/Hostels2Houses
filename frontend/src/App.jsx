@@ -5,6 +5,7 @@ import LoginFormPage from './components/LoginFormModal/LoginFormModal';
 import SignupFormPage from './components/SignUp/SignupFormModal';
 import Navigation from './components/Navigation/Navigation';
 import * as sessionActions from './store/session';
+import SpotList from './components/SpotsList/SpotList';
 import SpotDetails from './components/SpotDetails/SpotDetail';
 
 function Layout() {
@@ -31,7 +32,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: '/',
-        element: <h1>Home</h1>
+        element: <SpotList />
       },
       {
         path: '/login',
