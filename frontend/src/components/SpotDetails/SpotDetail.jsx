@@ -52,6 +52,7 @@ console.log(spot)
                 </div>
             </div>
         </section>
+        
      );
 }
 
