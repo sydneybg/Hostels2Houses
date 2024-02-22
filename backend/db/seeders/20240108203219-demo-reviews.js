@@ -46,19 +46,19 @@ const demoReviews = [
   },
   {
     spotId: 1,
-    authorId: 7,
+    authorId: 1,
     stars: 5,
     body: 'Josh was a wonderful host, very welcoming and responsive'
   },
   {
     spotId: 2,
-    authorId: 8,
+    authorId: 2,
     stars: 2,
     body: 'No wifi and very noisy neighbors, not ideal for a business trip'
   },
   {
     spotId: 3,
-    authorId: 9,
+    authorId: 3,
     stars: 3,
     body: 'Great beachside spot but had some issues with ants in the kitchen'
   }
