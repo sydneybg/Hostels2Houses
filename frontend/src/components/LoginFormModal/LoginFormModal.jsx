@@ -20,7 +20,7 @@ function LoginFormModal() {
       .then(closeModal)
       .catch(async (res) => {
         const data = await res.json();
-        console.log(res)
+        // console.log(res)
         if (res.status === 401) {
           setErrors({credential: data.message});
         }

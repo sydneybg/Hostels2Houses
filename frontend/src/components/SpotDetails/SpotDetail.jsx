@@ -25,7 +25,7 @@ function SpotDetails() {
 
     const reviews = Object.values(useSelector(state => state.reviews))
 
-console.log(reviews)
+console.log(reviews, 'reviewssss')
 
     useEffect(() => {
         dispatch(getReviews())

@@ -14,7 +14,7 @@ export const loadReviews = (reviews, spotId) => {
 export const getSpotReviews = (spotId) => async (dispatch) => {
     const response = await csrfFetch(`api/spots/${spotId}/reviews`)
 
-    console.log(response, 'response')
+    // console.log(response, 'RESPOONSE response')
 
     if(response.ok) {
         const spotReviews = await response.json()
@@ -25,9 +25,10 @@ export const getSpotReviews = (spotId) => async (dispatch) => {
 
 
 const reviewsReducer = (state = {}, action) => {
+    let allSpotReviews;
     switch (action.type) {
         case LOAD_REVIEWS:
-        const allSpotReviews = {
+        allSpotReviews = {
             ...state,
             [action.spotId]: action.reviews
         };
