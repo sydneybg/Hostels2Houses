@@ -1,28 +1,32 @@
 import { csrfFetch } from "./csrf";
-import { createAction } from 'redux-actions';
 
 
-const loadSpots = createAction(LOAD_SPOTS, (spot)=> {
-    return {
-        type: LOAD_SPOTS,
-        spots
-    }
-})
+export const LOAD_SPOTS = 'spots/LOAD_SPOTS';
+export const GET_SPOT_DETAILS = 'spots/GET_SPOT_DETAILS';
+export const LOAD_SPOT_IMAGES = 'spots/LOAD_SPOT_IMAGES';
 
-const loadOneSpot = createAction(GET_SPOT_DETAILS,(spot) => {
-    return {
-        type: GET_SPOT_DETAILS,
-        spot
-    }
-})
 
-const loadSpotImages = createAction(LOAD_SPOT_IMAGES, (spotImage, spotId) => {
-    return {
-        type: LOAD_SPOT_IMAGES,
-        spotImage,
-        spotId
-    }
-})
+export const loadSpots = (spots) => {
+  return {
+    type: LOAD_SPOTS,
+    spots,
+  };
+};
+
+export const loadOneSpot = (spot) => {
+  return {
+    type: GET_SPOT_DETAILS,
+    spot,
+  };
+};
+
+export const loadSpotImages = (spotImage, spotId) =>  {
+  return {
+    type: LOAD_SPOT_IMAGES,
+    spotImage,
+    spotId,
+  };
+};
 
 
 

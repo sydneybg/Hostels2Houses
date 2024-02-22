@@ -1,10 +1,15 @@
 import { csrfFetch } from "./csrf";
-import { createAction } from 'redux-actions';
 
-const loadReviews = createAction(LOAD_REVIEWS, (reviews, spotId) => ({
-  reviews,
-  spotId
-}));
+export const LOAD_REVIEWS = 'reviews/LOAD_REVIEWS';
+
+
+export const loadReviews = (reviews, spotId) => {
+  return {
+    type: LOAD_REVIEWS,
+    reviews,
+    spotId
+  };
+};
 
 export const getSpotReviews = (spotId) => async (dispatch) => {
     const response = await csrfFetch(`api/spots/${spotId}/reviews`)
@@ -21,10 +26,17 @@ export const getSpotReviews = (spotId) => async (dispatch) => {
 
 const reviewsReducer = (state = {}, action) => {
     switch (action.type) {
-        case LOAD_REVIEWS: {
-            const allSpotReviews = {}
-        }
-        return allSpotReviews
+        case LOAD_REVIEWS:
+        const allSpotReviews = {
+            ...state,
+            [action.spotId]: action.reviews
+        };
+
+        return allSpotReviews;
+        default:
+            return state
     }
-    return state 
+
 }
+
+export default reviewsReducer;
