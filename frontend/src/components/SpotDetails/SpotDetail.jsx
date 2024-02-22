@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import { getReviews, getSpot, getSpots } from "../../store/spots";
 import './SpotDetail.css'
 import { FaStar } from 'react-icons/fa';
+import { getSpotReviews } from "../../store/reviews";
 
 function SpotDetails() {
     const dispatch = useDispatch();
@@ -17,23 +18,24 @@ function SpotDetails() {
     }
 
     useEffect(() => {
-        dispatch(getSpots())
-            .then(async () => {
-                await dispatch(getSpot(spotId))
-            })
+        dispatch(getSpot(spotId))
+
     }, [dispatch, spotId])
 
-    const reviews = Object.values(useSelector(state => state.reviews))
+    let reviews = [];
+
+    const allReviews = useSelector(state => state.reviews);
+    if (allReviews && allReviews[spotId]) {
+      reviews = allReviews[spotId];
+    }
 
 console.log(reviews, 'reviewssss')
 
     useEffect(() => {
-        dispatch(getReviews())
-            .then(async() => {
-                await dispatch(getReviews(spotId))
-            })
+        console.log(spotId)
+        dispatch(getSpotReviews(spotId))
     }, [dispatch, spotId])
-
+    if(!spot) return <p>Loading</p>
 
     return (
         <>
@@ -71,14 +73,14 @@ console.log(reviews, 'reviewssss')
 <div className="review-nums">{spot.avgStarRating}  {spot.numReviews} reviews </div>
 
 <ul>
-    {reviews[spotId].map(review => {
-        <>
+    {reviews.map(review => {
+        return(
         <li>
-        <h2>{review.user.name}</h2>
-        <h3>{review.date}</h3>
-        <p>{review.description}</p>
+        <h2>{review.User.firstName}</h2>
+        <h3>{review.createdAt}</h3>
+        <p>{review.review}</p>
         </li>
-        </>
+        )
     })}
 </ul>
 </div>

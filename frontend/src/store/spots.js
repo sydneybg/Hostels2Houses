@@ -2,8 +2,9 @@ import { csrfFetch } from "./csrf";
 
 
 export const LOAD_SPOTS = 'spots/LOAD_SPOTS';
-export const GET_SPOT_DETAILS = 'spots/GET_SPOT_DETAILS';
+export const LOAD_SPOT_DETAILS = 'spots/LOAD_SPOT_DETAILS';
 export const LOAD_SPOT_IMAGES = 'spots/LOAD_SPOT_IMAGES';
+export const LOAD_REVIEWS = 'spots/LOAD_REVIEWS';
 
 
 export const loadSpots = (spots) => {
@@ -15,7 +16,7 @@ export const loadSpots = (spots) => {
 
 export const loadOneSpot = (spot) => {
   return {
-    type: GET_SPOT_DETAILS,
+    type: LOAD_SPOT_DETAILS,
     spot,
   };
 };
@@ -27,6 +28,14 @@ export const loadSpotImages = (spotImage, spotId) =>  {
     spotId,
   };
 };
+
+export const loadReviews = (spotId, reviews) => {
+    return {
+        type: LOAD_REVIEWS,
+        spotId,
+        reviews
+    }
+}
 
 
 
@@ -52,8 +61,8 @@ export const getReviews = (spotId) => async (dispatch) => {
     const reponse = await csrfFetch(`/api/spots/${spotId}/reviews`)
 
     if(reponse.ok){
-        const review = await reponse.json();
-        dispatch(loadOneSpot(review))
+        const reviews = await reponse.json();
+        dispatch(loadReviews(spotId, reviews))
     }
 }
 
@@ -105,12 +114,20 @@ const spotsReducer = (state = {}, action) => {
             })
             return spotsState
         }
-        case GET_SPOT_DETAILS : {
+        case LOAD_SPOT_DETAILS : {
             const spotState = {};
             spotState[action.spot.id] = action.spot
             return spotState
         } case LOAD_SPOT_IMAGES : {
             return {...state, [action.spot.id]: action.spot}
+        }
+        case LOAD_REVIEWS: {
+            return {...state,
+                [action.spotId]: {
+                    ...state[action.spotId],
+                    reviews: action.reviews
+                }
+            }
         }
         default:
             return state

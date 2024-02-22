@@ -14,8 +14,7 @@ function LoginFormModal() {
   const handleSubmit = (e) => {
     e.preventDefault();
     setErrors({});
-    // console.log(credential, 'cred')
-    // console.log(password, 'pass')
+
     return dispatch(sessionActions.login({ credential, password }))
       .then(closeModal)
       .catch(async (res) => {
