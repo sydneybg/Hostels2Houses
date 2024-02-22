@@ -24,11 +24,8 @@ function SpotDetails() {
     }, [dispatch, spotId])
 
     const reviews = Object.values(useSelector(state => state.reviews))
-    // if (reviews){
 
-    // }
-
-    //map through reviews to find the review
+console.log(reviews)
 
     useEffect(() => {
         dispatch(getReviews())
@@ -72,10 +69,18 @@ function SpotDetails() {
 <div className="review-section">
 <FaStar className="star-icon" />
 <div className="review-nums">{spot.avgStarRating}  {spot.numReviews} reviews </div>
-{/* //Repeat per each review (map) */}
-<h2>{review.user.name}</h2>
-<h3>{review.date}</h3>
-<p>{review.description}</p>
+
+<ul>
+    {reviews[spotId].map(review => {
+        <>
+        <li>
+        <h2>{review.user.name}</h2>
+        <h3>{review.date}</h3>
+        <p>{review.description}</p>
+        </li>
+        </>
+    })}
+</ul>
 </div>
 
 </section>
