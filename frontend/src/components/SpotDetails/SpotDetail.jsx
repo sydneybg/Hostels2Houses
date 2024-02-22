@@ -1,8 +1,9 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { getSpot, getSpots } from "../../store/spots";
+import { getReviews, getSpot, getSpots } from "../../store/spots";
 import './SpotDetail.css'
+import { FaStar } from 'react-icons/fa';
 
 function SpotDetails() {
     const dispatch = useDispatch();
@@ -14,7 +15,7 @@ function SpotDetails() {
     if (spots) {
       spot = spots[spotId];
     }
-console.log(spot)
+
     useEffect(() => {
         dispatch(getSpots())
             .then(async () => {
@@ -22,8 +23,23 @@ console.log(spot)
             })
     }, [dispatch, spotId])
 
+    const reviews = Object.values(useSelector(state => state.reviews))
+    // if (reviews){
+
+    // }
+
+    //map through reviews to find the review
+
+    useEffect(() => {
+        dispatch(getReviews())
+            .then(async() => {
+                await dispatch(getReviews(spotId))
+            })
+    }, [dispatch, spotId])
+
 
     return (
+        <>
         <section>
             <div className="spot-details">
                 <h2>{spot.name}</h2>
@@ -52,8 +68,22 @@ console.log(spot)
                 </div>
             </div>
         </section>
-        
+<section>
+<div className="review-section">
+<FaStar className="star-icon" />
+<div className="review-nums">{spot.avgStarRating}  {spot.numReviews} reviews </div>
+{/* //Repeat per each review (map) */}
+<h2>{review.user.name}</h2>
+<h3>{review.date}</h3>
+<p>{review.description}</p>
+</div>
+
+</section>
+</>
      );
 }
+
+
+
 
 export default SpotDetails;

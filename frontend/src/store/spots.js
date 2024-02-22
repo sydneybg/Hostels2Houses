@@ -47,6 +47,15 @@ export const getSpot = (spotId) =>  async (dispatch) => {
     }
 }
 
+export const getReviews = (spotId) => async (dispatch) => {
+    const reponse = await csrfFetch(`/api/spots/${spotId}/reviews`)
+
+    if(reponse.ok){
+        const review = await reponse.json();
+        dispatch(loadSpot(review))
+    }
+}
+
 export const createSpot = (spot) => async (dispatch) => {
     const response = await csrfFetch("/api/spots", {
         method: "POST",
