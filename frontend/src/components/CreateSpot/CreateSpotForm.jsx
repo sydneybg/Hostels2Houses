@@ -1,12 +1,15 @@
 import { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { createSpot } from "../../store/spots";
+import { useNavigate } from 'react-router-dom';
+
 // import { useParams } from "react-router-dom";
-// import { useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 
 
 
 function CreateSpotForm() {
-//   const dispatch = useDispatch();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [errors, setErrors] = useState({});
   const [country, setCountry] = useState("");
   const [state, setState] = useState("");
@@ -16,7 +19,9 @@ function CreateSpotForm() {
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState(null);
   const [images, setImages] = useState([]);
-//   const [disabled, setDisabled] = useState(true)
+  const [lat, setLat] = useState(0);
+  const [lng, setLng] = useState(0);
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -26,32 +31,44 @@ function CreateSpotForm() {
 
     if (!streetAddress) errorsObj.streetAddress = "Street Address is required";
 
-    if (!city) errors.city = "City is required";
+    if (!city) errorsObj.city = "City is required";
 
-    if (!state) errors.state = "State is required";
+    if (!state) errorsObj.state = "State is required";
 
     if (description.length < 30) {
-      errors.description = "Description must be at least 30 characters";
+        errorsObj.description = "Description must be at least 30 characters";
     }
 
     if (!title) {
-      errors.title = "Title is required";
+        errorsObj.title = "Title is required";
     }
 
     if (!price) {
-      errors.price = "Price per night is required";
+        errorsObj.price = "Price per night is required";
     }
 
     if (!images) {
-      errors.images = "Preview Image URL is required";
+        errorsObj.images = "Preview Image URL is required";
     }
+    console.log(errorsObj)
+    setErrors(errorsObj);
 
-    setErrors(errors);
-
-    if (Object.keys(errors).length > 0) {
-        setDisabled(true);
-      } else {
-        setDisabled(false);
+    if (Object.keys(errorsObj).length === 0) {
+      return dispatch(createSpot({
+        address: streetAddress,
+        city,
+        state,
+        country,
+        lat,
+        lng,
+        name: title,
+        description,
+        price
+}))
+      .then(data => navigate(`/spots/${data.id}`))
+      .catch(async (res) => {
+        const data = await res.json();
+      });
       }
   };
 
@@ -106,6 +123,26 @@ function CreateSpotForm() {
         </label>
         {errors.state && <p>{errors.state}</p>}
 
+        <label>
+          Lat
+          <input
+            type="number"
+            value={lat}
+            onChange={(e) => setLat(e.target.value)}
+          />
+        </label>
+        {errors.lat && <p>{errors.lat}</p>}
+
+        <label>
+          Lng
+          <input
+            type="number"
+            value={lng}
+            onChange={(e) => setLng(e.target.value)}
+          />
+        </label>
+        {errors.lng && <p>{errors.lng}</p>}
+
         <h2>Describe your place to guests</h2>
         <caption>
           Mention the best features of your space, any special amentities like
@@ -154,7 +191,7 @@ function CreateSpotForm() {
 
         />
 
-       <NavLink to='/'> <button disabled={disabled}>Create Spot</button></NavLink>
+        <button>Create Spot</button>
       </form>
     </>
   );
