@@ -1,14 +1,19 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { getSpot } from "../../store/spots";
 import './SpotDetail.css'
 import { FaStar } from 'react-icons/fa';
 import { getSpotReviews } from "../../store/reviews";
+import NewReviewModal from '../CreateReview/CreateReviewModal';
+import OpenModalButton from '../OpenModalButton/OpenModalButton';
 
 function SpotDetails() {
     const dispatch = useDispatch();
     const { spotId } = useParams();
+
+    const [shouldShowReview, setShouldShowReview] = useState(false);
+
 
     let spot = null;
 
@@ -29,7 +34,6 @@ function SpotDetails() {
       reviews = allReviews[spotId];
     }
 
-console.log(reviews, 'reviewssss')
 
     useEffect(() => {
         console.log(spotId)
@@ -67,10 +71,16 @@ console.log(reviews, 'reviewssss')
                 </div>
             </div>
         </section>
+
 <section>
 <div className="review-section">
 <FaStar className="star-icon" />
 <div className="review-nums">{spot.avgStarRating}  {spot.numReviews} reviews </div>
+
+{shouldShowReview &&    <OpenModalButton
+                buttonText="Post Your Review"
+                modalComponent={<NewReviewModal spotId={spotId}/>}
+              />}
 
 <ul>
     {reviews.map(review => {

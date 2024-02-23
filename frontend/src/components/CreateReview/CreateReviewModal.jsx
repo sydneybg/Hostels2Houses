@@ -4,6 +4,7 @@ import { FaRegStar } from 'react-icons/fa';
 import { useModal } from '../../context/Modal';
 import { createReview } from '../../store/reviews';
 
+
 function RatingInput({rating, setRating}){
   const stars = [1, 2, 3, 4, 5];
 
@@ -31,6 +32,11 @@ function NewReviewModal() {
     const [errors, setErrors] = useState({});
     const [disabled, setDisabled] = useState(true);
 
+const path = window.location.pathname
+
+const spotId = path.split('/')[2]
+
+
     useEffect(() => {
 
       if (rating === 0 || reviewText.length < 10) {
@@ -50,16 +56,16 @@ function NewReviewModal() {
       }
 
       if(reviewText.length < 10) {
-        setErrors({review: 'Review text must be greater than ten characters'})
+        return setErrors({review: 'Review text must be greater than ten characters'})
       }
 
-      dispatchEvent(createReview({
-        review: reviewText, //Correct direction? Should change all to just review?
-        rating: rating,
+      dispatch(createReview({
+        review: reviewText,
+        stars: rating,
         spotId: spotId
-        //date?
       }))
       .then(closeModal)
+      .catch()
     };
 
     const isValid = Object.keys(errors).length === 0;
@@ -69,7 +75,8 @@ function NewReviewModal() {
     return (
       <>
         <h2>How was your stay?</h2>
-        {error && <p>{error}</p>}
+        {errors.review && <p>{errors.review}</p>}
+        {errors.rating && <p>{errors.rating}</p>}
 
         <textarea
           placeholder="Leave your review here..."
@@ -93,3 +100,5 @@ function NewReviewModal() {
     );
 
   }
+
+  export default NewReviewModal;
