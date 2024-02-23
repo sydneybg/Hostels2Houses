@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
-import { useParams } from "react-router-dom";
+// import { useParams } from "react-router-dom";
 // import { useDispatch } from "react-redux";
 
 
@@ -16,6 +16,7 @@ function CreateSpotForm() {
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState(null);
   const [images, setImages] = useState([]);
+//   const [disabled, setDisabled] = useState(true)
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -46,6 +47,12 @@ function CreateSpotForm() {
     }
 
     setErrors(errors);
+
+    if (Object.keys(errors).length > 0) {
+        setDisabled(true);
+      } else {
+        setDisabled(false);
+      }
   };
 
   //useParams to get the spotId and then create the new route
@@ -112,7 +119,7 @@ function CreateSpotForm() {
 
         <h2>Create a title for your spot</h2>
         <p>
-          Catch guests' attention with a spot title that highlights what makes
+          Catch guests&#39; attention with a spot title that highlights what makes
           your place special.
         </p>
 
@@ -147,7 +154,7 @@ function CreateSpotForm() {
 
         />
 
-       <NavLink to='/'> <button>Create Spot</button></NavLink>
+       <NavLink to='/'> <button disabled={disabled}>Create Spot</button></NavLink>
       </form>
     </>
   );
