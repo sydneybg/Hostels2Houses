@@ -20,6 +20,15 @@ export const getSpotReviews = (spotId) => async (dispatch) => {
     }
 }
 
+export const createReview = (spotId, reviews) => async (dispatch) => {
+    const { review, stars } = reviews
+    const response = await csrfFetch(`/api/spots/${spotId}/reviews`), {
+        method: 'POST',
+        body: JSON.stringify({
+            review: review,
+            stars: stars
+        })
+    }
 
 const reviewsReducer = (state = {}, action) => {
     let allSpotReviews;

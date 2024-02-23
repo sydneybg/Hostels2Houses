@@ -1,9 +1,27 @@
-function NewReviewForm() {
+import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { FaRegStar } from 'react-icons/fa';
+import { useModal } from '../../context/Modal';
+import { createReview } from '../../store/reviews';
+
+
+function NewReviewModal() {
 
     const [reviewText, setReviewText] = useState('');
-    const [rating, setRating] = useState(null);
+    const [rating, setRating] = useState(0);
+    const [errors, setErrors] = useState({});
+    const [button, setButton] = useState(false);
 
-    const handleSubmit = () => {
+    useEffect(() => {
+      if (rating === 0 || reviewText.length < 10) {
+        return setButton(true)
+      } else {
+        setButton(false)
+      }
+    })
+
+    const handleSubmit = (e) => {
+      e.preventDefault()
 
       // Validation
 
