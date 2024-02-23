@@ -1,9 +1,9 @@
 import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { useModal } from "../../context/Modal";
+// import { useDispatch } from "react-redux";
+
 
 function CreateSpotForm() {
-  const dispatch = useDispatch();
+//   const dispatch = useDispatch();
   const [errors, setErrors] = useState({});
   const [country, setCountry] = useState("");
   const [state, setState] = useState("");
@@ -12,7 +12,6 @@ function CreateSpotForm() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState(null);
-  const [previewImage, setPreviewImage] = useState("");
   const [images, setImages] = useState([]);
 
   const handleSubmit = (e) => {
@@ -39,8 +38,8 @@ function CreateSpotForm() {
       errors.price = "Price per night is required";
     }
 
-    if (!previewImage) {
-      errors.previewImage = "Preview Image URL is required";
+    if (!images) {
+      errors.images = "Preview Image URL is required";
     }
 
     setErrors(errors);
@@ -50,7 +49,7 @@ function CreateSpotForm() {
     <>
       <h1>Create a New Spot</h1>
       <form onSubmit={handleSubmit}>
-        <h2>Where's your place located?</h2>
+        <h2>Where is your place located?</h2>
         <caption>
           Guests will only get your exact address once they booked a
           reservation.
@@ -100,7 +99,10 @@ function CreateSpotForm() {
           Mention the best features of your space, any special amentities like
           fast wifi or parking, and what you love about the neighborhood.
         </caption>
-        <textarea placeholder="Please write at least 30 characters"></textarea>
+        <textarea
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            placeholder="Please write at least 30 characters"></textarea>
         {errors.description && <p>{errors.description}</p>}
 
         <h2>Create a title for your spot</h2>
@@ -135,9 +137,9 @@ function CreateSpotForm() {
 
         <input
           placeholder="Preview Image URL"
-          value={previewImage}
-          onChange={(e) => setPreviewImage(e.target.value)}
-          
+          value={images}
+          onChange={(e) => setImages(e.target.value)}
+
         />
 
         <button>Create Spot</button>
