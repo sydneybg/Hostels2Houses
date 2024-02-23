@@ -1,5 +1,8 @@
 import { useState } from "react";
+import { NavLink } from "react-router-dom";
+import { useParams } from "react-router-dom";
 // import { useDispatch } from "react-redux";
+
 
 
 function CreateSpotForm() {
@@ -44,6 +47,8 @@ function CreateSpotForm() {
 
     setErrors(errors);
   };
+
+  //useParams to get the spotId and then create the new route
 
   return (
     <>
@@ -142,7 +147,7 @@ function CreateSpotForm() {
 
         />
 
-        <button>Create Spot</button>
+       <NavLink to='/'> <button>Create Spot</button></NavLink>
       </form>
     </>
   );
