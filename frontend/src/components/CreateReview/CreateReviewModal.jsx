@@ -4,6 +4,24 @@ import { FaRegStar } from 'react-icons/fa';
 import { useModal } from '../../context/Modal';
 import { createReview } from '../../store/reviews';
 
+function RatingInput({rating, setRating}){
+  const stars = [1, 2, 3, 4, 5];
+
+  return (
+    <div>
+      <label>Stars</label>
+      {stars.map(star => (
+        <FaRegStar
+          key={star}
+          size={32}
+          color={rating >= star ? "yellow" : "grey"}
+          onClick={() => setRating(star)}
+        />
+      ))}
+    </div>
+  );
+}
+
 
 function NewReviewModal() {
     const { closeModal } = useModal();
@@ -44,6 +62,10 @@ function NewReviewModal() {
       .then(closeModal)
     };
 
+    const isValid = Object.keys(errors).length === 0;
+
+
+
     return (
       <>
         <h2>How was your stay?</h2>
@@ -57,9 +79,9 @@ function NewReviewModal() {
 
         <div>
           <label>Stars</label>
-          <StarRating
-            value={rating}
-            onChange={rate => setRating(rate)}
+          <RatingInput
+          rating={rating}
+          setRating={setRating}
           />
         </div>
 
