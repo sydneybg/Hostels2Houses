@@ -6,31 +6,42 @@ import { createReview } from '../../store/reviews';
 
 
 function NewReviewModal() {
-
+    const { closeModal } = useModal();
+    const dispatch = useDispatch();
     const [reviewText, setReviewText] = useState('');
     const [rating, setRating] = useState(0);
     const [errors, setErrors] = useState({});
-    const [button, setButton] = useState(false);
+    const [disabled, setDisabled] = useState(true);
 
     useEffect(() => {
+
       if (rating === 0 || reviewText.length < 10) {
-        return setButton(true)
+        return setDisabled(true)
+
       } else {
-        setButton(false)
+        setDisabled(false)
       }
-    })
+    }, [rating, reviewText])
 
     const handleSubmit = (e) => {
       e.preventDefault()
+      setErrors({});
 
-      // Validation
-
-      if(reviewText.length < 10 || !rating) {
-        return;
+      if(!rating) {
+        return setErrors({rating: 'Please provide a star rating'})
       }
 
-      // Dispatch action to submit review
+      if(reviewText.length < 10) {
+        setErrors({review: 'Review text must be greater than ten characters'})
+      }
 
+      dispatchEvent(createReview({
+        review: reviewText, //Correct direction? Should change all to just review?
+        rating: rating,
+        spotId: spotId
+        //date?
+      }))
+      .then(closeModal)
     };
 
     return (
