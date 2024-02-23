@@ -137,7 +137,7 @@ function CreateSpotForm() {
           placeholder="Preview Image URL"
           value={previewImage}
           onChange={(e) => setPreviewImage(e.target.value)}
-          required
+          
         />
 
         <button>Create Spot</button>

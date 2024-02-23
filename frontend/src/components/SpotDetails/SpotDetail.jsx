@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { getReviews, getSpot, getSpots } from "../../store/spots";
+import { getSpot } from "../../store/spots";
 import './SpotDetail.css'
 import { FaStar } from 'react-icons/fa';
 import { getSpotReviews } from "../../store/reviews";
@@ -75,7 +75,7 @@ console.log(reviews, 'reviewssss')
 <ul>
     {reviews.map(review => {
         return(
-        <li>
+        <li key ={review.id}>
         <h2>{review.User.firstName}</h2>
         <h3>{review.createdAt}</h3>
         <p>{review.review}</p>
