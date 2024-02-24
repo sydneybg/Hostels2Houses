@@ -26,7 +26,7 @@ function ManageSpots() {
     sessionUser && (
       <>
         <h1>Manage Spots</h1>
-        {spot.length > 0 && (
+        {spots.length > 0 && (
           <div className="spot-list">
             {spots.map((spot) => (
               <div
