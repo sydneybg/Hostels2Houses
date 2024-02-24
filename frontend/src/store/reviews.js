@@ -55,6 +55,15 @@ const reviewsReducer = (state = {}, action) => {
         };
 
         return allSpotReviews;
+
+        let newReview;
+            switch (action.type) {
+                case ADD_REVIEW:
+                newReview = {
+                    ...state,
+                    [action.payload.spotId] : action.review
+                }
+            }
         default:
             return state
     }
