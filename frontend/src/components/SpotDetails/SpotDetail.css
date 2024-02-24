@@ -1,4 +1,5 @@
 .card {
+  flex-basis: 35%;
   border: 3px solid black;
 }
 
@@ -7,16 +8,29 @@ section {
     margin: 0 auto;
   }
 
+  .details-flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+
+  .desc {
+    flex: 1;
+    margin-right: 20px;
+  }
 
   .spot-details h2 {
     font-size: 32px;
     margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
   }
 
   .spot-details h4 {
     font-size: 18px;
     font-weight: normal;
     margin-bottom: 20px;
+    width: 60%;
   }
 
 
@@ -41,7 +55,11 @@ section {
     font-size: 18px;
   }
 
-
+  .rating-and-review {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
 
   button {
     background-color: #008489;
