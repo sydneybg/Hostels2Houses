@@ -12,19 +12,10 @@ function SpotDetails() {
     const dispatch = useDispatch();
     const { spotId } = useParams();
 
-    const [shouldShowReview, setShouldShowReview] = useState(false);
+    const sessionUser = useSelector(state => state.session.user);
 
-    let spot = null;
+    const spotReviews = useSelector(state => state.reviews[spotId]);
 
-    const spots = useSelector(state => state.spots);
-    if (spots) {
-      spot = spots[spotId];
-    }
-
-    useEffect(() => {
-        dispatch(getSpot(spotId))
-
-    }, [dispatch, spotId])
 
     let reviews = [];
 
@@ -33,22 +24,67 @@ function SpotDetails() {
       reviews = allReviews[spotId];
     }
 
+    let spot = null;
+
+    const spots = useSelector(state => state.spots);
+    if (spots) {
+      spot = spots[spotId];
+    }
+
+    const [shouldShowReview, setShouldShowReview] = useState(false);
+
     useEffect(() => {
-        console.log(spotId)
+        dispatch(getSpot(spotId))
+
+    }, [spotId])
+
+    useEffect(() => {
         dispatch(getSpotReviews(spotId))
-    }, [dispatch, spotId])
-    if(!spot) return <p>Loading</p>
-
-    const sessionUser = useSelector(state => state.session.user);
-    const isOwner = spot.ownerId === sessionUser.id;
+    }, [spotId])
 
     useEffect(() => {
-        if(!sessionUser || isOwner) {
-            return setShouldShowReview(false)
+        let shouldShowReview = false;
+        let isLoggedIn = false;
+        let isOwner = false;
+        let userNotReview = false;
+
+        if(sessionUser.id) {
+            isLoggedIn = true
         }
+
+        if(spot) {
+            isOwner = spot.ownerId === sessionUser.id;
+        }
+
+        if(spotReviews) {
+            userNotReview = spotReviews.find(spotReview => {
+            sessionUser.id === spotReview.userId
+         })
+        }
+
+        if(!isOwner && userNotReview && isLoggedIn) {
+            setShouldShowReview(true)
+        }
+
     }, [sessionUser, reviews, spot])
 
+    if(!spot) return <p>Loading</p>
 
+
+    function formatRating(rating) {
+        if (!rating) return "New";
+        return Math.round(rating);
+    }
+
+
+
+
+
+
+
+
+
+// return (<div>Spot</div>)
 
     return (
         <>
@@ -63,14 +99,15 @@ function SpotDetails() {
                     ))}
                 </div>
                 <h3 className="host">Hosted by {spot.Owner?.firstName} {spot.Owner?.lastName}</h3>
-                <span>{spot.description}</span>
+                <span className="desc">{spot.description}</span>
                 <div className="card">
                 <div className="flex justifycontent-between">
                 <div className="price">
-                    <span>$ {spot.price}</span>
+                    <span>$ {spot.price} night </span>
                 </div>
                 <div className="rating">
-                    <span>&#9733; {spot.avgStarRating}</span>
+                <FaStar className="star-icon" />
+                    <span>{formatRating(spot.avgStarRating)}</span>
                 </div>
                 <div className="num-reviews">
                     <span>{spot.numReviews} reviews</span>
