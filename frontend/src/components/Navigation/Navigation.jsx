@@ -1,7 +1,7 @@
 import { NavLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import ProfileButton from './ProfileButton';
-import CreateSpotForm from '../CreateSpot/CreateSpotForm';
+// import CreateSpotForm from '../CreateSpot/CreateSpotForm';
 import H2hLogo from '../../../../images/H2HLogo.png'
 import "./Navigation.css";
 

@@ -13,15 +13,6 @@ function SpotDetails() {
     const { spotId } = useParams();
 
     const [shouldShowReview, setShouldShowReview] = useState(false);
-    const sessionUser = useSelector(state => state.session.user);
-    const isOwner = spot.ownerId === sessionUser.id;
-
-    useEffect(() => {
-        if(!sessionUser || isOwner) {
-            return setShouldShowReview(false)
-        }
-    }, [sessionUser, reviews, spot])
-
 
     let spot = null;
 
@@ -42,12 +33,22 @@ function SpotDetails() {
       reviews = allReviews[spotId];
     }
 
-
     useEffect(() => {
         console.log(spotId)
         dispatch(getSpotReviews(spotId))
     }, [dispatch, spotId])
     if(!spot) return <p>Loading</p>
+
+    const sessionUser = useSelector(state => state.session.user);
+    const isOwner = spot.ownerId === sessionUser.id;
+
+    useEffect(() => {
+        if(!sessionUser || isOwner) {
+            return setShouldShowReview(false)
+        }
+    }, [sessionUser, reviews, spot])
+
+
 
     return (
         <>
@@ -85,7 +86,8 @@ function SpotDetails() {
 <FaStar className="star-icon" />
 <div className="review-nums">{spot.avgStarRating}  {spot.numReviews} reviews </div>
 
-{    <OpenModalButton
+
+{shouldShowReview &&    <OpenModalButton
                 buttonText="Post Your Review"
                 modalComponent={<NewReviewModal spotId={spotId}/>}
               />}

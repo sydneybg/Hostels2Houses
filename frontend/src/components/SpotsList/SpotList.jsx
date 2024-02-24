@@ -2,45 +2,64 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getSpots } from "../../store/spots";
 import { Link } from "react-router-dom";
-import './SpotList.css'
+import "./SpotList.css";
+import { FaStar } from "react-icons/fa";
+
+
 
 function SpotsList() {
-    const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
-    const spots = Object.values(useSelector(state => state.spots));
+  const spots = Object.values(useSelector((state) => state.spots));
 
-    useEffect(() => {
-        dispatch(getSpots())
-    }, [dispatch])
+  useEffect(() => {
+    dispatch(getSpots());
+  }, [dispatch]);
 
+  function formatRating(rating) {
+    if (!rating) return "New";
 
-    return (
+    return Math.round(rating);
+  }
+
+  return (
     <>
-    <section>
+      <section>
         <div className="spot-list">
-            {spots.map(spot => (
-                    <div key={spot.id}>
-                        <Link to={`/spots/${spot.id}`}>
-                            <span>{spot.name}</span>
-                            <img
-                                src={spot.previewImage}
-                                alt={spot.name}
-                                className="spot-image"
-                            />
-                        </Link>
-                    <div>
-                        <span className="city-state">
-                            {`${spot.city}, ${spot.state}`}</span>
-                        <span>&#9733; {parseFloat(spot.avgRating).toFixed(2)}</span>
+          {spots.map((spot) => (
+            <Link to={`/spots/${spot.id}`} key={spot.id} title={spot.name}>
 
-                    </div>
-                        <span>{`$${parseFloat(spot.price).toFixed(2)} night`}</span>
-                    </div>
-                ))
-            }
+              <div className="spot-tile" title={spot.name}>
+
+                <img
+                  src={spot.previewImage}
+                  alt={spot.name}
+                  className="spot-image"
+                />
+
+                <div title={spot.name} className="spot-details">
+                  <div className="spot-title">{spot.name}</div>
+
+                  <div className="spot-reviews">
+                  <FaStar className="star-icon" />
+                    {formatRating(spot.avgRating)}
+                  </div>
+
+                  <div className="spot-location">
+                    {spot.city}, {spot.state}
+                  </div>
+
+                  <div className="spot-price">
+                    ${spot.price} <small>night</small>
+                  </div>
+                </div>
+              </div>
+            </Link>
+          ))}
         </div>
-    </section>
-    </>);
+      </section>
+    </>
+  );
 }
 
 export default SpotsList;
