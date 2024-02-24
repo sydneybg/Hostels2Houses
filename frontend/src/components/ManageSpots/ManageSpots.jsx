@@ -18,42 +18,66 @@ function ManageSpots() {
     (spot) => spot.ownerId === userId
   );
 
+  useEffect(() => {
+    dispatch(getUserSpots(userId));
+  }, [dispatch, userId]);
 
-  useEffect(()=> {
-    dispatch(getUserSpots(userId))
-  }, [dispatch, userId])
+  return (
+    sessionUser && (
+      <>
+        <h1>Manage Spots</h1>
+        {spot.length > 0 && (
+          <div className="spot-list">
+            {spots.map((spot) => (
+              <div
+                key={spot.id}
+                className="spot-tile"
+                onClick={() => navigate(`/spots/${spot.id}`)}
+              >
+                <img
+                  src={spot.previewImage}
+                  alt={spot.name}
+                  className="spot-thumbnail"
+                />
+                <div className="spot-info">
+                  <div>
+                    {spot.city}, {spot.state}
+                  </div>
+                  <div>
+                    <FaStar /> {spot.avgRating || "New"}
+                  </div>
+                  <div>${spot.price} per night</div>
+                  <div className="spot-actions">
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        navigate(`/spots/${spot.id}/edit`);
+                      }}
+                    >
+                      Update
+                    </button>
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
 
-return (
-    sessionUser &&
-
-    <>
-    <div className="spot-list">
-          {spots.map((spot) => (
-            <div key={spot.id} className="spot-tile" onClick={() => navigate(`/spots/${spot.id}`)}>
-              <img src={spot.previewImage} alt={spot.name} className="spot-thumbnail" />
-              <div className="spot-info">
-                <div>{spot.city}, {spot.state}</div>
-                <div><FaStar /> {spot.avgRating || "New"}</div>
-                <div>${spot.price} per night</div>
-                <div className="spot-actions">
-                  <button onClick={(e) => {
-                    e.stopPropagation();
-                    navigate(`/spots/${spot.id}/edit`);
-                  }}>Update</button>
-                  <button onClick={(e) => {
-                    e.stopPropagation();
-                    // Add your delete spot logic here
-                    console.log("Delete spot", spot.id);
-                  }}>Delete</button>
+                        // DELETE
+                        console.log("Delete spot", spot.id);
+                      }}
+                    >
+                      Delete
+                    </button>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
-        </div>
-      )
-
-    </>
-)
+            ))}
+          </div>
+        )}
+        {spots.length === 0 && (
+          <NavLink to="/spots/new">Create a New Spot</NavLink>
+        )}
+      </>
+    )
+  );
 }
 
 export default ManageSpots;
