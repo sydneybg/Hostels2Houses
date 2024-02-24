@@ -46,23 +46,23 @@ function SpotDetails() {
         let shouldShowReview = false;
         let isLoggedIn = false;
         let isOwner = false;
-        let userNotReview = false;
+        let userAlreadyReview = false;
 
         if(sessionUser.id) {
             isLoggedIn = true
         }
 
-        if(spot) {
-            isOwner = spot.ownerId === sessionUser.id;
+        if(spot && spot.ownerId === sessionUser.id) {
+            isOwner = true;
         }
 
-        if(spotReviews) {
-            userNotReview = spotReviews.find(spotReview => {
+        if(spotReviews && spotReviews.length > 0) {
+            userAlreadyReview = spotReviews.find(spotReview => {
             sessionUser.id === spotReview.userId
          })
         }
 
-        if(!isOwner && userNotReview && isLoggedIn) {
+        if(!isOwner && !userAlreadyReview && isLoggedIn) {
             setShouldShowReview(true)
         }
 
