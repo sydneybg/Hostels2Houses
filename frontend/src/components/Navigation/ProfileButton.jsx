@@ -1,15 +1,19 @@
 import { useState, useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
-import { FaUserCircle } from 'react-icons/fa';
+import { FaUserCircle, FaBars } from 'react-icons/fa';
 import * as sessionActions from '../../store/session';
 import OpenModalButton from '../OpenModalButton/OpenModalButton';
 import LoginFormModal from '../LoginFormModal/LoginFormModal';
 import SignupFormModal from '../SignUp/SignupFormModal';
+// import ManageSpots from '../ManageSpots/ManageSpots';
+import { NavLink, useNavigate } from 'react-router-dom';
+
 
 function ProfileButton({ user }) {
   const dispatch = useDispatch();
   const [showMenu, setShowMenu] = useState(false);
   const ulRef = useRef();
+  const navigate = useNavigate()
 
   const toggleMenu = (e) => {
     e.stopPropagation();
@@ -32,6 +36,8 @@ function ProfileButton({ user }) {
 
   const logout = (e) => {
     e.preventDefault();
+    setShowMenu(false)
+    navigate('/')
     dispatch(sessionActions.logout());
   };
 
@@ -40,14 +46,19 @@ function ProfileButton({ user }) {
   return (
     <>
       <button onClick={toggleMenu}>
+        <FaBars />
         <FaUserCircle />
       </button>
       <ul className={ulClassName} ref={ulRef}>
         {user ? (
           <>
-            <li>{user.username}</li>
-            <li>{user.firstName} {user.lastName}</li>
+            <li>Hello, {user.firstName}</li>
             <li>{user.email}</li>
+            <li>
+             <NavLink to="/spots/current">
+             Manage Spots
+             </NavLink>
+            </li>
             <li>
               <button onClick={logout}>Log Out</button>
             </li>

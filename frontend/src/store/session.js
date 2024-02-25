@@ -16,7 +16,7 @@ export const removeSessionUser = () => {
   };
 };
 
-export const login = (credential, password) => async (dispatch) => {
+export const login = ({credential, password}) => async (dispatch) => {
   const response = await csrfFetch('/api/session', {
     method: 'POST',
     body: JSON.stringify({

@@ -5,6 +5,10 @@ import LoginFormPage from './components/LoginFormModal/LoginFormModal';
 import SignupFormPage from './components/SignUp/SignupFormModal';
 import Navigation from './components/Navigation/Navigation';
 import * as sessionActions from './store/session';
+import SpotList from './components/SpotsList/SpotList';
+import SpotDetails from './components/SpotDetails/SpotDetail';
+import CreateSpotForm from './components/CreateSpot/CreateSpotForm';
+import ManageSpots from './components/ManageSpots/ManageSpots';
 
 function Layout() {
   const dispatch = useDispatch();
@@ -30,7 +34,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: '/',
-        element: <h1>Welcome!</h1>
+        element: <SpotList />
       },
       {
         path: '/login',
@@ -39,7 +43,23 @@ const router = createBrowserRouter([
       {
         path: "/signup",
         element: <SignupFormPage />
-      }
+      },
+      {
+        path: "/spots/:spotId",
+        element: <SpotDetails />
+      },
+      {
+        path: '/spots/new',
+        element: <CreateSpotForm />
+      },
+      {
+        path: '/spots/current',
+        element: <ManageSpots />
+      },
+      // { path: "/spots/:spotId/edit",
+      //  element: <UpdateSpotForm />
+      // }
+
     ]
   }
 ]);

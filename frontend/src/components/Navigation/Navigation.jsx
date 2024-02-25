@@ -1,56 +1,35 @@
 import { NavLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import ProfileButton from './ProfileButton';
-// import OpenModalButton from '../OpenModalButton/OpenModalButton';
-// import LoginFormModal from '../LoginFormModal/LoginFormModal';
-// import SignupFormModal from '../Signup/SignupFormModal';
+// import CreateSpotForm from '../CreateSpot/CreateSpotForm';
+import H2hLogo from '../../../../images/H2HLogo.png'
 import "./Navigation.css";
+
 
 function Navigation({ isLoaded }){
   const sessionUser = useSelector(state => state.session.user);
 
+
+
   return (
+    <>
+    <div className='navigation-container'>
+    <div className='title-logo'>
+        <h1>Hostels to Houses</h1>
+      <NavLink to='/'><img src={H2hLogo} alt='AppLogo'/></NavLink>
+    </div>
+    <NavLink to='/spots/new'><button className='create-spot'>Create a New Spot</button></NavLink>
     <ul>
-      <li>
-        <NavLink to="/">Home</NavLink>
-      </li>
       {isLoaded && (
         <li>
           <ProfileButton user={sessionUser} />
         </li>
       )}
     </ul>
+    </div>
+    </>
   );
+      }
 
-//   const sessionLinks = sessionUser ? (
-//     <li>
-//       <ProfileButton user={sessionUser} />
-//     </li>
-//   ) : (
-//     <>
-//       <li>
-//         <OpenModalButton
-//           buttonText="Log In"
-//           modalComponent={<LoginFormModal />}
-//         />
-//       </li>
-//       <li>
-//       <OpenModalButton
-//           buttonText="Sign Up"
-//           modalComponent={<SignupFormModal />}
-//         />
-//       </li>
-//     </>
-//   );
-
-//   return (
-//     <ul>
-//       <li>
-//         <NavLink to="/">Home</NavLink>
-//       </li>
-//       {isLoaded && sessionLinks}
-//     </ul>
-//   );
-}
 
 export default Navigation;

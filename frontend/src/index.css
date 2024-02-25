@@ -1,1 +1,27 @@
 /* TODO: Add sitewide styles */
+.flex {
+    display: flex;
+}
+.justifycontent-between {
+    justify-content: space-between;
+}
+
+.hidden {
+    visibility: hidden;
+}
+
+button {
+    background-color: #008489;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+  }
+
+  button:hover {
+    background-color: #00656b;
+    cursor: pointer;
+  }
+
+.disabled-button {
+    opacity: 0.5;
+}

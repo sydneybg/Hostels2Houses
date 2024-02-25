@@ -25,6 +25,42 @@ const demoReviews = [
     authorId: 3,
     stars: 5,
     body: 'Incredible location by the beach'
+  },
+  {
+    spotId: 4,
+    authorId: 4,
+    stars: 3,
+    body: 'Small but cozy place for the price'
+  },
+  {
+    spotId: 5,
+    authorId: 5,
+    stars: 4,
+    body: 'Beautiful mountain views but kitchen appliances could use an upgrade'
+  },
+  {
+    spotId: 6,
+    authorId: 6,
+    stars: 5,
+    body: 'Bright and spacious home in a perfect beach town location'
+  },
+  {
+    spotId: 1,
+    authorId: 1,
+    stars: 5,
+    body: 'Josh was a wonderful host, very welcoming and responsive'
+  },
+  {
+    spotId: 2,
+    authorId: 2,
+    stars: 2,
+    body: 'No wifi and very noisy neighbors, not ideal for a business trip'
+  },
+  {
+    spotId: 3,
+    authorId: 3,
+    stars: 3,
+    body: 'Great beachside spot but had some issues with ants in the kitchen'
   }
 ];
 
