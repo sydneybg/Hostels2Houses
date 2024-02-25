@@ -1,10 +1,7 @@
 import { useState } from "react";
 import { createSpot } from "../../store/spots";
 import { useNavigate, Navigate } from 'react-router-dom';
-
-// import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-
 
 
 function CreateSpotForm() {
