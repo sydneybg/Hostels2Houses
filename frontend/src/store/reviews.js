@@ -12,9 +12,9 @@ export const loadReviews = (reviews, spotId) => {
   };
 };
 
-export const addReview = (review) => ({
+export const addReview = (review, User) => ({
     type: ADD_REVIEW,
-    payload: review
+    payload: {...review, User}
 })
 
 export const getSpotReviews = (spotId) => async (dispatch) => {
@@ -26,7 +26,7 @@ export const getSpotReviews = (spotId) => async (dispatch) => {
     }
 }
 
-export const createReview = ({ spotId, review, stars }) => async (dispatch) => {
+export const createReview = ({ spotId, review, stars, user }) => async (dispatch) => {
 console.log('create review')
     const response = await csrfFetch(`/api/spots/${spotId}/reviews`, {
         method: 'POST',
@@ -40,8 +40,7 @@ console.log('create review')
     })
     if (response.ok) {
         const review = await response.json();
-        dispatch(addReview(review));
-        return review;
+        dispatch(addReview(review, user));
       }
 }
 
@@ -56,14 +55,14 @@ const reviewsReducer = (state = {}, action) => {
 
         return allSpotReviews;
 
-        let newReview;
-            switch (action.type) {
-                case ADD_REVIEW:
-                newReview = {
-                    ...state,
-                    [action.payload.spotId] : action.review
-                }
-            }
+        case ADD_REVIEW: {
+            let copyOfState = {...state};
+            copyOfState[action.payload.spotId] = copyOfState[action.payload.spotId] || []
+            copyOfState[action.payload.spotId].push(action.payload)
+            return copyOfState;
+        }
+
+
         default:
             return state
     }

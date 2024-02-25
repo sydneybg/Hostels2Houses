@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { createSpot } from "../../store/spots";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Navigate } from 'react-router-dom';
 
 // import { useParams } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 
 
@@ -21,6 +21,7 @@ function CreateSpotForm() {
   const [images, setImages] = useState([]);
   const [lat, setLat] = useState(0);
   const [lng, setLng] = useState(0);
+  const sessionUser = useSelector((state) => state.session.user);
 
 
   const handleSubmit = (e) => {
@@ -50,7 +51,7 @@ function CreateSpotForm() {
     if (!images) {
         errorsObj.images = "Preview Image URL is required";
     }
-    console.log(errorsObj)
+
     setErrors(errorsObj);
 
     if (Object.keys(errorsObj).length === 0) {
@@ -72,9 +73,9 @@ function CreateSpotForm() {
       }
   };
 
-  //useParams to get the spotId and then create the new route
 
-  return (
+
+  return (sessionUser ? (
     <>
       <h1>Create a New Spot</h1>
       <form onSubmit={handleSubmit}>
@@ -194,6 +195,7 @@ function CreateSpotForm() {
         <button>Create Spot</button>
       </form>
     </>
+  ) : <p>Please Log In or Sign up</p>
   );
 }
 

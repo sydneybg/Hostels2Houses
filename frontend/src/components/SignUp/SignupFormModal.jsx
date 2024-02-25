@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Navigate } from 'react-router-dom';
+
 import { useModal } from '../../context/Modal';
 import * as sessionActions from '../../store/session';
 import './SignupForm.css';
+
 
 function SignupFormModal() {
   const dispatch = useDispatch();
@@ -16,9 +17,9 @@ function SignupFormModal() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [errors, setErrors] = useState({});
 
+
   const { closeModal } = useModal();
 
-  if (sessionUser) return <Navigate to="/" replace={true} />;
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -33,7 +34,9 @@ function SignupFormModal() {
           password
         })
       )
-      .then(closeModal)
+      .then(() => {
+        closeModal()
+      })
       .catch(async (res) => {
         const data = await res.json();
         if (data?.errors) {
@@ -45,6 +48,12 @@ function SignupFormModal() {
       confirmPassword: "Confirm Password field must be the same as the Password field"
     });
   };
+
+  let disabledClass = ""
+  if (password.length < 6 || username.length < 4) {
+      disabledClass = "disabled-button"
+  }
+
 
   return (
     <>
@@ -116,7 +125,7 @@ function SignupFormModal() {
           />
         </label>
         {errors.confirmPassword && <p>{errors.confirmPassword}</p>}
-        <button type="submit" disabled={password.length < 6 || username.length < 4}>Sign Up</button>
+        <button className={disabledClass} type="submit" disabled={password.length < 6 || username.length < 4}>Sign Up</button>
       </form>
     </>
   );

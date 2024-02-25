@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import { FaRegStar } from 'react-icons/fa';
 import { useModal } from '../../context/Modal';
 import { createReview } from '../../store/reviews';
+import { useSelector } from 'react-redux';
 
 
 function RatingInput({rating, setRating}){
@@ -35,6 +36,7 @@ function NewReviewModal() {
 const path = window.location.pathname
 
 const spotId = path.split('/')[2]
+  const sessionUser = useSelector((state) => state.session.user);
 
 
     useEffect(() => {
@@ -62,7 +64,8 @@ const spotId = path.split('/')[2]
       dispatch(createReview({
         review: reviewText,
         stars: rating,
-        spotId: spotId
+        spotId: spotId,
+        user: sessionUser
       }))
       .then(closeModal)
       .catch()

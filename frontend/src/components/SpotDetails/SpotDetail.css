@@ -61,14 +61,4 @@ section {
     gap: 20px;
   }
 
-  button {
-    background-color: #008489;
-    border: none;
-    color: white;
-    padding: 10px 20px;
-  }
 
-  button:hover {
-    background-color: #00656b;
-    cursor: pointer;
-  }

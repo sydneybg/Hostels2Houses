@@ -6,13 +6,14 @@ import OpenModalButton from '../OpenModalButton/OpenModalButton';
 import LoginFormModal from '../LoginFormModal/LoginFormModal';
 import SignupFormModal from '../SignUp/SignupFormModal';
 // import ManageSpots from '../ManageSpots/ManageSpots';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 
 
 function ProfileButton({ user }) {
   const dispatch = useDispatch();
   const [showMenu, setShowMenu] = useState(false);
   const ulRef = useRef();
+  const navigate = useNavigate()
 
   const toggleMenu = (e) => {
     e.stopPropagation();
@@ -35,6 +36,8 @@ function ProfileButton({ user }) {
 
   const logout = (e) => {
     e.preventDefault();
+    setShowMenu(false)
+    navigate('/')
     dispatch(sessionActions.logout());
   };
 

@@ -46,6 +46,9 @@ function SpotDetails() {
     let isOwner = false;
     let userAlreadyReview = false;
 
+    console.log(sessionUser)
+
+if (sessionUser) {
     if (sessionUser.id) {
       isLoggedIn = true;
     }
@@ -55,10 +58,12 @@ function SpotDetails() {
     }
 
     if (spotReviews && spotReviews.length > 0) {
-      userAlreadyReview = spotReviews.find((spotReview) => {
-        sessionUser.id === spotReview.userId;
+        userAlreadyReview = spotReviews.find((spotReview) => {
+        return sessionUser.id === spotReview.userId;
       });
     }
+}
+
 
     if (!isOwner && !userAlreadyReview && isLoggedIn) {
       setShouldShowReview(true);
@@ -72,7 +77,7 @@ function SpotDetails() {
     return Math.round(rating);
   }
 
-  // return (<div>Spot</div>)
+
 
   return (
     <>
@@ -104,7 +109,7 @@ function SpotDetails() {
                   <span>{formatRating(spot.avgStarRating)}</span>
                 </div>
                 <div className="num-reviews">
-                  <span>{spot.numReviews} reviews</span>
+                  <span>{spot.numReviews} {spot.numReviews === 1 ? "review" : "reviews"}</span>
                 </div>
               </div>
               <button onClick={() => alert("Feature coming soon")}>
@@ -124,7 +129,7 @@ function SpotDetails() {
                 {Math.round(spot.avgStarRating)}
               </span>
             </span>
-            <span className="num-reviews">{spot.numReviews} reviews</span>
+            <span className="num-reviews">{spot.numReviews} {spot.numReviews === 1 ? "review" : "reviews"}</span>
           </div>
 
           {shouldShowReview && (

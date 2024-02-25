@@ -36,6 +36,10 @@ function LoginFormModal() {
     .then(closeModal)
   }
 
+  let disabledClass = ""
+  if (password.length < 6 || credential.length < 4) {
+      disabledClass = "disabled-button"
+  }
 
   return (
     <>
@@ -62,7 +66,7 @@ function LoginFormModal() {
         {errors.credential && (
           <p>{errors.credential}</p>
         )}
-        <button type="submit" disabled={password.length < 6 || credential.length < 4}>Log In</button>
+        <button className={disabledClass} type="submit" disabled={password.length < 6 || credential.length < 4}>Log In</button>
         <a href="/" onClick={demoLogin}>Demo User</a>
 
       </form>
