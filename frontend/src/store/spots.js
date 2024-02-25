@@ -6,6 +6,7 @@ export const LOAD_SPOT_DETAILS = 'spots/LOAD_SPOT_DETAILS';
 export const LOAD_SPOT_IMAGES = 'spots/LOAD_SPOT_IMAGES';
 export const LOAD_REVIEWS = 'spots/LOAD_REVIEWS';
 export const UPDATE_SPOT = 'spots/UPDATE_SPOT';
+export const REMOVE_SPOT = 'spots/REMOVE_SPOT';
 
 
 export const loadSpots = (spots) => {
@@ -118,6 +119,15 @@ export const updateSpot = (spotId, spotData) => async (dispatch) => {
     }
   };
 
+  export const deleteSpot = (spotId) => async (dispatch) => {
+    const response = await csrfFetch(`/api/spots/${spotId}`,
+    { method: 'DELETE' });
+    if (response.ok) {
+      dispatch({ type: REMOVE_SPOT, payload: spotId });
+    }
+  };
+
+
 
 export const createSpotImage = (spotId, spotImage) => async (dispatch) => {
     const response = await csrfFetch(`/api/spots/${spotId}/images`, {
@@ -148,6 +158,7 @@ const spotsReducer = (state = {}, action) => {
             })
             return spotsState
         }
+
         case LOAD_SPOT_DETAILS : {
             const spotState = {};
             spotState[action.spot.id] = action.spot
@@ -155,6 +166,7 @@ const spotsReducer = (state = {}, action) => {
         } case LOAD_SPOT_IMAGES : {
             return {...state, [action.spot.id]: action.spot}
         }
+
         case LOAD_REVIEWS: {
             return {...state,
                 [action.spotId]: {
@@ -170,6 +182,10 @@ const spotsReducer = (state = {}, action) => {
             return newState;
           }
 
+        case REMOVE_SPOT: {
+            const { [action.payload]: _, ...newState } = state;
+            return newState;
+          }
 
         default:
             return state

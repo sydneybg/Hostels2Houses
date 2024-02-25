@@ -1,13 +1,17 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getUserSpots } from "../../store/spots";
+import { getUserSpots, deleteSpot } from "../../store/spots";
 import { NavLink, useNavigate } from "react-router-dom";
 import { FaStar } from "react-icons/fa";
+import ConfirmationModal from "../DeleteSpot/ConfirmationModal";
 
 function ManageSpots() {
   const dispatch = useDispatch();
   const sessionUser = useSelector((state) => state.session.user);
   const navigate = useNavigate();
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedSpotId, setSelectedSpotId] = useState(null);
 
   let userId;
   if (sessionUser) {
@@ -21,6 +25,11 @@ function ManageSpots() {
   useEffect(() => {
     dispatch(getUserSpots(userId));
   }, [dispatch, userId]);
+
+  const handleDelete = (spotId) => {
+    dispatch(deleteSpot(spotId));
+    setIsModalOpen(false);
+  };
 
   return (
     sessionUser && (
@@ -59,9 +68,8 @@ function ManageSpots() {
                     <button
                       onClick={(e) => {
                         e.stopPropagation();
-
-                        // DELETE
-                        console.log("Delete spot", spot.id);
+                        setSelectedSpotId(spot.id);
+                        setIsModalOpen(true);
                       }}
                     >
                       Delete
@@ -75,6 +83,13 @@ function ManageSpots() {
         {spots.length === 0 && (
           <NavLink to="/spots/new">Create a New Spot</NavLink>
         )}
+        <ConfirmationModal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          onConfirm={() => handleDelete(selectedSpotId)}
+          title="Confirm Delete"
+          message="Are you sure you want to remove this spot?"
+        />
       </>
     )
   );
