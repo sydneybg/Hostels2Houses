@@ -1,14 +1,13 @@
 import { NavLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import ProfileButton from './ProfileButton';
-// import CreateSpotForm from '../CreateSpot/CreateSpotForm';
+
 import H2hLogo from '../../../../images/H2HLogo.png'
 import "./Navigation.css";
 
 
 function Navigation({ isLoaded }){
   const sessionUser = useSelector(state => state.session.user);
-
 
 
   return (
@@ -19,7 +18,7 @@ function Navigation({ isLoaded }){
       <NavLink to='/'><img src={H2hLogo} alt='AppLogo'/></NavLink>
     </div>
     <div className='right-side'>
-    <NavLink to='/spots/new'><button className='create-spot'>Create a New Spot</button></NavLink>
+    {sessionUser &&  (<NavLink to='/spots/new'><button className='create-spot'>Create a New Spot</button></NavLink>)}
     <ul>
       {isLoaded && (
         <li>

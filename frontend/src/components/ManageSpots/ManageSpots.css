@@ -1,13 +1,13 @@
+.spot-list {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    justify-items: center;
+}
+
 h1 {
     text-align: center;
     margin: 20px 0;
-  }
-
-  .spot-list {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 20px;
-    padding: 20px;
   }
 
   .spot-tile {
@@ -64,4 +64,24 @@ h1 {
 
   .spot-actions button:last-child:hover {
     background-color: #c82333;
+  }
+
+  @media (max-width: 900px) {
+    .spot-list {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+
+  @media (max-width: 600px) {
+    .spot-list {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+
+  @media (max-width: 400px) {
+    .spot-list {
+      grid-template-columns: repeat(1, 1fr);
+    }
   }

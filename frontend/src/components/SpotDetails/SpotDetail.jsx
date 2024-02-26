@@ -70,6 +70,8 @@ function SpotDetails() {
 
     if (!isOwner && !userAlreadyReview && isLoggedIn) {
       setShouldShowReview(true);
+    } else {
+        setShouldShowReview(false)
     }
   }, [sessionUser, reviews, spot]);
 
@@ -172,15 +174,21 @@ function SpotDetails() {
               modalComponent={<NewReviewModal spotId={spotId} />}
             />
           )}
-
+            {sessionUser?.id && !(spot && spot.ownerId === sessionUser.id) && reviews.length === 0 && <h2>Be the first to write a review!</h2>}
           <ul>
             {reviews.map((review) => {
+                const createdAt = new Date(review.createdAt)
+
+                const monthName = createdAt.toLocaleString('default', { month: 'long' });
+
+                const year = createdAt.toLocaleString('default', {year: 'numeric'})
+
               return (
                 <li key={review.id}>
                   <h2>{review.User.firstName}</h2>
-                  <h3>{review.createdAt}</h3>
+                  <h3>{monthName} {year}</h3>
                   <p>{review.review}</p>
-                  {sessionUser.id === review.User.id && (
+                  {sessionUser?.id === review.User.id && (
                     <button onClick={(e) => handleDeleteClick(e, review.id)}>
                       Delete
                     </button>

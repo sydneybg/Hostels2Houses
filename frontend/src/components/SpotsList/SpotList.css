@@ -3,7 +3,26 @@
     grid-template-columns: repeat(4, 1fr);
     gap: 20px;
     justify-items: center;
-    margin: auto;
+}
+
+@media (max-width: 900px) {
+  .spot-list {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+
+@media (max-width: 600px) {
+  .spot-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+
+@media (max-width: 400px) {
+  .spot-list {
+    grid-template-columns: repeat(1, 1fr);
+  }
 }
 
 .spot-image {
