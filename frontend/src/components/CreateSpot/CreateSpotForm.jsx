@@ -2,6 +2,7 @@ import { useState } from "react";
 import { createSpot } from "../../store/spots";
 import { useNavigate, Navigate } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
+import './CreateSpot.css';
 
 
 function CreateSpotForm() {
@@ -74,13 +75,14 @@ function CreateSpotForm() {
 
   return (sessionUser ? (
     <>
+    <div className="spotform-container">
       <h1>Create a New Spot</h1>
       <form onSubmit={handleSubmit}>
         <h2>Where is your place located?</h2>
-        <caption>
+        <p>
           Guests will only get your exact address once they booked a
           reservation.
-        </caption>
+        </p>
         <label>
           Country
           <input
@@ -108,8 +110,10 @@ function CreateSpotForm() {
             value={city}
             onChange={(e) => setCity(e.target.value)}
           />
+           <span>, </span>
         </label>
         {errors.city && <p>{errors.city}</p>}
+
 
         <label>
           State
@@ -128,6 +132,7 @@ function CreateSpotForm() {
             value={lat}
             onChange={(e) => setLat(e.target.value)}
           />
+           <span>, </span>
         </label>
         {errors.lat && <p>{errors.lat}</p>}
 
@@ -142,10 +147,10 @@ function CreateSpotForm() {
         {errors.lng && <p>{errors.lng}</p>}
 
         <h2>Describe your place to guests</h2>
-        <caption>
+        <p>
           Mention the best features of your space, any special amentities like
           fast wifi or parking, and what you love about the neighborhood.
-        </caption>
+        </p>
         <textarea
             value={description}
             onChange={(e) => setDescription(e.target.value)}
@@ -191,6 +196,7 @@ function CreateSpotForm() {
 
         <button>Create Spot</button>
       </form>
+      </div>
     </>
   ) : <p>Please Log In or Sign up</p>
   );

@@ -29,6 +29,8 @@ h1 {
 
   .spot-info {
     padding: 10px;
+    display: flex;
+    flex-direction: column;
   }
 
   .spot-info div {
@@ -37,7 +39,6 @@ h1 {
 
   .spot-actions {
     display: flex;
-    justify-content: space-between;
     margin-top: 10px;
   }
 

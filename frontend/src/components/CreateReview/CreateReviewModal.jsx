@@ -4,15 +4,14 @@ import { FaRegStar } from 'react-icons/fa';
 import { useModal } from '../../context/Modal';
 import { createReview } from '../../store/reviews';
 import { useSelector } from 'react-redux';
-
+import './CreateReview.css';
 
 
 function RatingInput({rating, setRating}){
   const stars = [1, 2, 3, 4, 5];
 
   return (
-    <div>
-      <label>Stars</label>
+    <div className='star-input'>
       {stars.map(star => (
         <FaRegStar
           key={star}
@@ -21,6 +20,7 @@ function RatingInput({rating, setRating}){
           onClick={() => setRating(star)}
         />
       ))}
+      <label>Stars</label>
     </div>
   );
 }
@@ -78,6 +78,7 @@ const spotId = path.split('/')[2]
 
     return (
       <>
+      <div className='review-modal-container'>
         <h2>How was your stay?</h2>
         {errors.review && <p>{errors.review}</p>}
         {errors.rating && <p>{errors.rating}</p>}
@@ -89,7 +90,7 @@ const spotId = path.split('/')[2]
         />
 
         <div>
-          <label>Stars</label>
+
           <RatingInput
           rating={rating}
           setRating={setRating}
@@ -99,7 +100,7 @@ const spotId = path.split('/')[2]
         <button disabled={!isValid} onClick={handleSubmit}>
           Submit Your Review
         </button>
-
+        </div>
       </>
     );
 

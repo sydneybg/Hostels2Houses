@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { updateSpot, getSpot } from "../../store/spots";
 import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
+import './UpdateSpot.css';
 
 
 function UpdateSpotForm() {
@@ -104,13 +105,14 @@ function UpdateSpotForm() {
 
   return (sessionUser ? (
     <>
+    <div className="updatespot-container">
       <h1>Update Your Spot</h1>
       <form onSubmit={handleSubmit}>
         <h2>Where is your place located?</h2>
-        <caption>
+        <p>
           Guests will only get your exact address once they booked a
           reservation.
-        </caption>
+        </p>
         <label>
           Country
           <input
@@ -172,10 +174,10 @@ function UpdateSpotForm() {
         {errors.lng && <p>{errors.lng}</p>}
 
         <h2>Describe your place to guests</h2>
-        <caption>
+        <p>
           Mention the best features of your space, any special amentities like
           fast wifi or parking, and what you love about the neighborhood.
-        </caption>
+        </p>
         <textarea
             value={description}
             onChange={(e) => setDescription(e.target.value)}
@@ -221,6 +223,7 @@ function UpdateSpotForm() {
 
         <button>Update Your Spot</button>
       </form>
+      </div>
     </>
   ) : <p>Please Log In or Sign up</p>
   );
