@@ -17,7 +17,7 @@ const demoSpots = [
     country: 'USA',
     lat: 47.608013,
     lng: -122.335167,
-    name: 'blue house',
+    name: 'Blue House',
     description: 'a very blue house',
     price: 1000.00
   },
@@ -29,7 +29,7 @@ const demoSpots = [
    country: 'USA',
    lat: 45.523064,
    lng: -122.676483,
-   name: 'pink house',
+   name: 'Pink House',
    description: 'a super pink house',
    price: 459.00
  },
@@ -58,7 +58,7 @@ const demoSpots = [
   price: 288.00
 },
 {
-  ownerId: 2,
+  ownerId: 4,
   address: '999 Bank Street',
   city: 'Portland',
   state: 'Oregon',
@@ -70,7 +70,7 @@ const demoSpots = [
   price: 459.00
 },
 {
- ownerId: 3,
+ ownerId: 5,
  address: '876 Green Lane',
  city: 'Sayulita',
  state: 'Nayarit',

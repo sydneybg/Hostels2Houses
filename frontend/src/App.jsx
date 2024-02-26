@@ -10,6 +10,7 @@ import SpotDetails from './components/SpotDetails/SpotDetail';
 import CreateSpotForm from './components/CreateSpot/CreateSpotForm';
 import ManageSpots from './components/ManageSpots/ManageSpots';
 import UpdateSpotForm from './components/UpdateSpot/UpdateSpotForm';
+import DeleteReview from './components/DeleteReview/DeleteReview';
 
 function Layout() {
   const dispatch = useDispatch();
