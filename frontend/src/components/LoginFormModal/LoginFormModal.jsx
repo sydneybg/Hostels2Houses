@@ -43,6 +43,7 @@ function LoginFormModal() {
 
   return (
     <>
+    <div className='login-form'>
       <h1>Log In</h1>
       <form onSubmit={handleSubmit}>
         <label>
@@ -70,7 +71,9 @@ function LoginFormModal() {
         <div className='demo'>
         <a href="/" onClick={demoLogin}>Demo User</a>
         </div>
+
       </form>
+      </div>
     </>
   );
 }
