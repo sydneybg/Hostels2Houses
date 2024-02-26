@@ -2,6 +2,7 @@ import { csrfFetch } from './csrf';
 
 export const LOAD_REVIEWS = 'reviews/LOAD_REVIEWS';
 export const ADD_REVIEW = 'reviews/ADD_REVIEW';
+export const DELETE_REVIEW = 'reviews/DELETE_REVIEW';
 
 
 export const loadReviews = (reviews, spotId) => {
@@ -15,7 +16,14 @@ export const loadReviews = (reviews, spotId) => {
 export const addReview = (review, User) => ({
     type: ADD_REVIEW,
     payload: {...review, User}
-})
+});
+
+export const deleteReviewAction = (reviewId, spotId) => ({
+    type: DELETE_REVIEW,
+    reviewId,
+    spotId,
+});
+
 
 export const getSpotReviews = (spotId) => async (dispatch) => {
     const response = await csrfFetch(`/api/spots/${spotId}/reviews`)
@@ -27,7 +35,7 @@ export const getSpotReviews = (spotId) => async (dispatch) => {
 }
 
 export const createReview = ({ spotId, review, stars, user }) => async (dispatch) => {
-console.log('create review')
+
     const response = await csrfFetch(`/api/spots/${spotId}/reviews`, {
         method: 'POST',
         headers: {
@@ -42,7 +50,18 @@ console.log('create review')
         const review = await response.json();
         dispatch(addReview(review, user));
       }
-}
+};
+
+export const deleteReview = (reviewId, spotId) => async (dispatch) => {
+    const response = await csrfFetch(`/api/reviews/${reviewId}`, {
+        method: 'DELETE',
+    });
+
+    if (response.ok) {
+        dispatch(deleteReviewAction(reviewId, spotId));
+    }
+};
+
 
 const reviewsReducer = (state = {}, action) => {
     let allSpotReviews;
@@ -60,6 +79,12 @@ const reviewsReducer = (state = {}, action) => {
             copyOfState[action.payload.spotId] = copyOfState[action.payload.spotId] || []
             copyOfState[action.payload.spotId].push(action.payload)
             return copyOfState;
+        };
+
+        case DELETE_REVIEW: {
+            const newState = { ...state };
+            newState[action.spotId] = newState[action.spotId].filter(review => review.id !== action.reviewId);
+            return newState;
         }
 
 

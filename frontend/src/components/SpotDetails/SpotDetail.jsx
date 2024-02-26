@@ -1,12 +1,13 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { getSpot } from "../../store/spots";
 import "./SpotDetail.css";
 import { FaStar } from "react-icons/fa";
-import { getSpotReviews } from "../../store/reviews";
+import { getSpotReviews, deleteReview } from "../../store/reviews";
 import NewReviewModal from "../CreateReview/CreateReviewModal";
 import OpenModalButton from "../OpenModalButton/OpenModalButton";
+import ConfirmationModal from "../DeleteReview/DeleteReview";
 
 function SpotDetails() {
   const dispatch = useDispatch();
@@ -15,6 +16,9 @@ function SpotDetails() {
   const sessionUser = useSelector((state) => state.session.user);
 
   const spotReviews = useSelector((state) => state.reviews[spotId]);
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedReviewId, setSelectedReviewId] = useState(null);
 
   let reviews = [];
 
@@ -46,24 +50,21 @@ function SpotDetails() {
     let isOwner = false;
     let userAlreadyReview = false;
 
-    console.log(sessionUser)
+    if (sessionUser) {
+      if (sessionUser.id) {
+        isLoggedIn = true;
+      }
 
-if (sessionUser) {
-    if (sessionUser.id) {
-      isLoggedIn = true;
-    }
+      if (spot && spot.ownerId === sessionUser.id) {
+        isOwner = true;
+      }
 
-    if (spot && spot.ownerId === sessionUser.id) {
-      isOwner = true;
-    }
-
-    if (spotReviews && spotReviews.length > 0) {
+      if (spotReviews && spotReviews.length > 0) {
         userAlreadyReview = spotReviews.find((spotReview) => {
-        return sessionUser.id === spotReview.userId;
-      });
+          return sessionUser.id === spotReview.userId;
+        });
+      }
     }
-}
-
 
     if (!isOwner && !userAlreadyReview && isLoggedIn) {
       setShouldShowReview(true);
@@ -77,7 +78,18 @@ if (sessionUser) {
     return Math.round(rating);
   }
 
+  const handleDeleteClick = (e, reviewId) => {
+    e.stopPropogation()
+    setIsModalOpen(true);
+    setSelectedReviewId(reviewId);
+  };
 
+  const confirmDelete = () => {
+    if (selectedReviewId) {
+      dispatch(deleteReview(selectedReviewId, spotId));
+      setIsModalOpen(false);
+    }
+  };
 
   return (
     <>
@@ -109,7 +121,10 @@ if (sessionUser) {
                   <span>{formatRating(spot.avgStarRating)}</span>
                 </div>
                 <div className="num-reviews">
-                  <span>{spot.numReviews} {spot.numReviews === 1 ? "review" : "reviews"}</span>
+                  <span>
+                    {spot.numReviews}{" "}
+                    {spot.numReviews === 1 ? "review" : "reviews"}
+                  </span>
                 </div>
               </div>
               <button onClick={() => alert("Feature coming soon")}>
@@ -129,7 +144,9 @@ if (sessionUser) {
                 {Math.round(spot.avgStarRating)}
               </span>
             </span>
-            <span className="num-reviews">{spot.numReviews} {spot.numReviews === 1 ? "review" : "reviews"}</span>
+            <span className="num-reviews">
+              {spot.numReviews} {spot.numReviews === 1 ? "review" : "reviews"}
+            </span>
           </div>
 
           {shouldShowReview && (
@@ -146,12 +163,24 @@ if (sessionUser) {
                   <h2>{review.User.firstName}</h2>
                   <h3>{review.createdAt}</h3>
                   <p>{review.review}</p>
+                  {sessionUser.id === review.User.id && (
+                    <button onClick={() => handleDeleteClick(e, review.id)}>
+                      Delete
+                    </button>
+                  )}
                 </li>
               );
             })}
           </ul>
         </div>
       </section>
+      <ConfirmationModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onConfirm={confirmDelete}
+        title="Confirm Delete"
+        message="Are you sure you want to delete this review?"
+      />
     </>
   );
 }
