@@ -25,7 +25,7 @@ const demoSpotImages = [
   },
   {
     spotId: 1,
-    url: "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.iscapeit.com%2Fblog%2Fflower-ideas-for-a-blue-house&psig=AOvVaw3S_AoaPPgu03dJfLHCmcSg&ust=1708993836621000&source=images&cd=vfe&opi=89978449&ved=0CBMQjRxqFwoTCMCcu9_gx4QDFQAAAAAdAAAAABAQ",
+    url: "https://www.kathykuohome.com/blog/wp-content/uploads/2016/02/blue_feature-1140x570.jpg",
     preview: true
   },
   {
@@ -35,23 +35,28 @@ const demoSpotImages = [
   },
   {
     spotId: 2,
-    url: "https://hgtvhome.sndimg.com/content/dam/images/hgtv/fullset/2022/9/14/0/Original_Derek_Trimble_HouseofAdora_EXTERIOR_011.jpg.rend.hgtvcom.791.527.suffix/1663185741249.jpeg"
+    url: "https://hgtvhome.sndimg.com/content/dam/images/hgtv/fullset/2022/9/14/0/Original_Derek_Trimble_HouseofAdora_EXTERIOR_011.jpg.rend.hgtvcom.791.527.suffix/1663185741249.jpeg",
+    preview: true
   },
   {
     spotId: 2,
-    url: "https://hgtvhome.sndimg.com/content/dam/images/hgtv/fullset/2022/9/14/0/Original_Derek_Trimble_HouseofAdora_EXTERIOR_017.jpg.rend.hgtvcom.791.527.suffix/1663185744099.jpeg"
+    url: "https://hgtvhome.sndimg.com/content/dam/images/hgtv/fullset/2022/9/14/0/Original_Derek_Trimble_HouseofAdora_EXTERIOR_017.jpg.rend.hgtvcom.791.527.suffix/1663185744099.jpeg",
+    preview: true
   },
   {
     spotId: 2,
-    url: "https://hgtvhome.sndimg.com/content/dam/images/hgtv/fullset/2022/9/14/0/Original_Derek_Trimble_HouseofAdora_ROOM2_011.jpg.rend.hgtvcom.791.527.suffix/1663185747303.jpeg"
+    url: "https://hgtvhome.sndimg.com/content/dam/images/hgtv/fullset/2022/9/14/0/Original_Derek_Trimble_HouseofAdora_ROOM2_011.jpg.rend.hgtvcom.791.527.suffix/1663185747303.jpeg",
+    preview: true
   },
   {
     spotId: 2,
-    url: "https://hgtvhome.sndimg.com/content/dam/images/hgtv/fullset/2022/9/14/0/Original_Derek_Trimble_HouseofAdora_ROOM7_007.jpg.rend.hgtvcom.791.527.suffix/1663185747556.jpeg"
+    url: "https://hgtvhome.sndimg.com/content/dam/images/hgtv/fullset/2022/9/14/0/Original_Derek_Trimble_HouseofAdora_ROOM7_007.jpg.rend.hgtvcom.791.527.suffix/1663185747556.jpeg",
+    preview: true
   },
   {
     spotId: 2,
-    url: "https://hgtvhome.sndimg.com/content/dam/images/hgtv/fullset/2022/9/14/0/Original_Derek_Trimble_HouseofAdora_ROOM7_014.jpg.rend.hgtvcom.791.1187.suffix/1663185750209.jpeg"
+    url: "https://hgtvhome.sndimg.com/content/dam/images/hgtv/fullset/2022/9/14/0/Original_Derek_Trimble_HouseofAdora_ROOM7_014.jpg.rend.hgtvcom.791.1187.suffix/1663185750209.jpeg",
+    preview: true
   },
   {
     spotId: 3,
@@ -77,7 +82,58 @@ const demoSpotImages = [
     spotId: 3,
     url: "https://hips.hearstapps.com/hmg-prod/images/ani-villas-anguilla-cg1-11-long-1616005841.jpg?crop=1xw:1xh;center,top&resize=980:*",
     preview: true
-  }
+  },
+  {
+    spotId: 4,
+    url: "https://imageio.forbes.com/specials-images/imageserve/648916c1be9483831575c365/Tree-Haus/960x0.jpg?format=jpg&width=1440",
+    preview: true
+  },
+  {
+    spotId: 4,
+    url: "https://wacocreeksideresort.com/wp-content/uploads/2023/06/P1223374-2-2048x1638.jpg",
+    preview: true
+  },
+  {
+    spotId: 4,
+    url: "https://wacocreeksideresort.com/wp-content/uploads/2023/06/CC5A3275-1536x1025.jpg",
+    preview: true
+  },
+  {
+    spotId: 4,
+    url: "https://wacocreeksideresort.com/wp-content/uploads/2022/10/BEN_7632.jpg",
+    preview: true
+  },
+  {
+    spotId: 4,
+    url: "https://wacocreeksideresort.com/wp-content/uploads/2022/10/BEN_9558.jpg",
+    preview: true
+  },
+  {
+    spotId: 5,
+    url: "https://cdn.homedit.com/wp-content/uploads/2012/03/the_bedford_luxurious_restaurant.jpg",
+    preview: true
+  },
+  {
+    spotId: 5,
+    url: "https://cdn.homedit.com/wp-content/uploads/2012/03/the_bedford_luxurious_restaurant2.jpg",
+    preview: true
+  },
+  {
+    spotId: 5,
+    url: "https://cdn.homedit.com/wp-content/uploads/2012/03/the_bedford_luxurious_restaurant3.jpg",
+    preview: true
+  },
+  {
+    spotId: 5,
+    url: "https://cdn.homedit.com/wp-content/uploads/2012/03/the_bedford_luxurious_restaurant4.jpg",
+    preview: true
+  },
+  {
+    spotId: 5,
+    url: "https://nypost.com/wp-content/uploads/sites/2/2018/10/24a-bank108leo3-c-ta_rr.jpg?resize=1536,1025&quality=75&strip=all",
+    preview: true
+  },
+
 ]
 
 /** @type {import('sequelize-cli').Migration} */

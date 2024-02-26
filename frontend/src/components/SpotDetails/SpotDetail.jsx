@@ -38,11 +38,11 @@ function SpotDetails() {
 
   useEffect(() => {
     dispatch(getSpot(spotId));
-  }, [spotId]);
+  }, [dispatch, spotId]);
 
   useEffect(() => {
     dispatch(getSpotReviews(spotId));
-  }, [spotId]);
+  }, [dispatch, spotId]);
 
   useEffect(() => {
     let shouldShowReview = false;
@@ -79,7 +79,7 @@ function SpotDetails() {
   }
 
   const handleDeleteClick = (e, reviewId) => {
-    e.stopPropogation()
+    e.stopPropagation();
     setIsModalOpen(true);
     setSelectedReviewId(reviewId);
   };
@@ -102,8 +102,14 @@ function SpotDetails() {
           <div className="images">
             {spot.SpotImages &&
               spot.SpotImages.map(
-                (image) =>
-                  image.preview && <img key={image.id} src={image.url} />
+                (image, index) =>
+                  image.preview && (
+                    <img
+                      key={image.id}
+                      src={image.url}
+                      alt={`Spot Image ${index + 1}`}
+                    />
+                  )
               )}
           </div>
           <h3 className="host">
@@ -120,12 +126,15 @@ function SpotDetails() {
                   <FaStar className="star-icon" />
                   <span>{formatRating(spot.avgStarRating)}</span>
                 </div>
-                <div className="num-reviews">
-                  <span>
-                    {spot.numReviews}{" "}
-                    {spot.numReviews === 1 ? "review" : "reviews"}
-                  </span>
-                </div>
+                {spot.numReviews > 0 && (
+                  <>
+                    <span> · </span>
+                    <span className="num-reviews">
+                      {spot.numReviews}{" "}
+                      {spot.numReviews === 1 ? "review" : "reviews"}
+                    </span>
+                  </>
+                )}
               </div>
               <button onClick={() => alert("Feature coming soon")}>
                 Reserve
@@ -144,9 +153,15 @@ function SpotDetails() {
                 {Math.round(spot.avgStarRating)}
               </span>
             </span>
-            <span className="num-reviews">
-              {spot.numReviews} {spot.numReviews === 1 ? "review" : "reviews"}
-            </span>
+            {spot.numReviews > 0 && (
+              <>
+                <span> · </span>
+                <span className="num-reviews">
+                  {spot.numReviews}{" "}
+                  {spot.numReviews === 1 ? "review" : "reviews"}
+                </span>
+              </>
+            )}
           </div>
 
           {shouldShowReview && (

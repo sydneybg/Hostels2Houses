@@ -34,9 +34,21 @@ section {
   }
 
 
+  .images {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    grid-gap: 10px;
+  }
+
+  .images img:first-child {
+    grid-column: 1 / 2;
+    grid-row: 1 / 3;
+  }
+
   .images img {
-    width: 200px;
-    margin-right: 10px;
+    width: 100%;
+    height: auto;
   }
 
 
@@ -60,5 +72,3 @@ section {
     align-items: center;
     gap: 20px;
   }
-
-

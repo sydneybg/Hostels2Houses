@@ -19,7 +19,7 @@ function LoginFormModal() {
       .then(closeModal)
       .catch(async (res) => {
         const data = await res.json();
-        // console.log(res)
+
         if (res.status === 401) {
           setErrors({credential: data.message});
         }
@@ -67,8 +67,9 @@ function LoginFormModal() {
           <p>{errors.credential}</p>
         )}
         <button className={disabledClass} type="submit" disabled={password.length < 6 || credential.length < 4}>Log In</button>
+        <div className='demo'>
         <a href="/" onClick={demoLogin}>Demo User</a>
-
+        </div>
       </form>
     </>
   );

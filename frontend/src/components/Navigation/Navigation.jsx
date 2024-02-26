@@ -18,6 +18,7 @@ function Navigation({ isLoaded }){
         <h1>Hostels to Houses</h1>
       <NavLink to='/'><img src={H2hLogo} alt='AppLogo'/></NavLink>
     </div>
+    <div className='right-side'>
     <NavLink to='/spots/new'><button className='create-spot'>Create a New Spot</button></NavLink>
     <ul>
       {isLoaded && (
@@ -26,6 +27,7 @@ function Navigation({ isLoaded }){
         </li>
       )}
     </ul>
+    </div>
     </div>
     </>
   );
