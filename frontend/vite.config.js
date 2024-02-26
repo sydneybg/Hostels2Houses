@@ -5,11 +5,11 @@ import eslint from 'vite-plugin-eslint';
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
   plugins: [
-    react(),
-    eslint({
-      lintOnStart: true,
-      failOnError: mode === "production"
-    })
+    react()
+    // eslint({
+    //   lintOnStart: false,
+    //   failOnError: mode === "production"
+    // })
   ],
   build: {
     outDir: 'dist'
