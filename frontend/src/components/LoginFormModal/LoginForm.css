@@ -4,6 +4,8 @@
     padding: 20px;
     border: 1px solid #ddd;
     border-radius: 4px;
+    display: flex;
+    flex-direction: column;
   }
 
   .login-form h1 {
@@ -34,4 +36,9 @@
     padding: 5px;
     border: 1px solid #ccc;
     border-radius: 4px;
+  }
+
+  .demo {
+    margin-top: 20px;
+    text-align: center;
   }

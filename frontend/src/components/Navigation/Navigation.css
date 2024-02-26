@@ -6,6 +6,7 @@
     background-color: #fff;
     border-bottom: 1px solid #ddd;
     padding: 1rem;
+    align-items: center;
   }
 
 .title-logo {
@@ -26,4 +27,10 @@
 
 .navigation-container ul {
   list-style-type: none;
+}
+
+.right-side {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }

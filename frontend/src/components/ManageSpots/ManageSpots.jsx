@@ -4,6 +4,8 @@ import { getUserSpots, deleteSpot } from "../../store/spots";
 import { NavLink, useNavigate } from "react-router-dom";
 import { FaStar } from "react-icons/fa";
 import ConfirmationModal from "../DeleteSpot/ConfirmationModal";
+import './ManageSpots.css';
+
 
 function ManageSpots() {
   const dispatch = useDispatch();
