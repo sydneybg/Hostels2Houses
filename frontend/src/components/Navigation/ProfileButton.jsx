@@ -5,7 +5,6 @@ import * as sessionActions from '../../store/session';
 import OpenModalButton from '../OpenModalButton/OpenModalButton';
 import LoginFormModal from '../LoginFormModal/LoginFormModal';
 import SignupFormModal from '../SignUp/SignupFormModal';
-// import ManageSpots from '../ManageSpots/ManageSpots';
 import { NavLink, useNavigate } from 'react-router-dom';
 
 

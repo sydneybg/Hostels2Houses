@@ -6,6 +6,7 @@ import { createReview } from '../../store/reviews';
 import { useSelector } from 'react-redux';
 
 
+
 function RatingInput({rating, setRating}){
   const stars = [1, 2, 3, 4, 5];
 
