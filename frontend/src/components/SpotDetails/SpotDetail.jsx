@@ -8,6 +8,8 @@ import { getSpotReviews, deleteReview } from "../../store/reviews";
 import NewReviewModal from "../CreateReview/CreateReviewModal";
 import OpenModalButton from "../OpenModalButton/OpenModalButton";
 import ConfirmationModal from "../DeleteReview/DeleteReview";
+import '../ManageSpots/ManageSpots.css';
+
 
 function SpotDetails() {
   const dispatch = useDispatch();
@@ -179,7 +181,7 @@ function SpotDetails() {
                   <h3>{review.createdAt}</h3>
                   <p>{review.review}</p>
                   {sessionUser.id === review.User.id && (
-                    <button onClick={() => handleDeleteClick(e, review.id)}>
+                    <button onClick={(e) => handleDeleteClick(e, review.id)}>
                       Delete
                     </button>
                   )}
